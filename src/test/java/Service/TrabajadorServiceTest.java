@@ -1,6 +1,7 @@
 package Service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import Exception.ReglaNegocioException;
 import Model.Trabajador;
 import Repository.TrabajadorRepository;
 import Repository.TrabajadorRepositoryImpl;
@@ -86,6 +88,70 @@ class TrabajadorServiceTest {
 		assertEquals("70001234", guardado.get().getTelefono());
 		assertEquals("luis.vega@ostraverde.cr", guardado.get().getCorreo());
 		assertEquals("Operario de cosecha", guardado.get().getCargo());
+	}
+
+	@Test
+	@DisplayName("CP-PER-02 rechazar cargo vacío")
+	void rechazarCargoVacio() {
+		// Arrange
+		Trabajador trabajador = new Trabajador("101230456", "Ana Mora Solís", "88881234",
+				"ana.mora@ostraverde.cr", "");
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> trabajadorService.registrar(trabajador));
+
+		// Assert
+		assertTrue(error.getMessage().contains("cargo"));
+		assertTrue(trabajadorRepository.buscarPorIdentificacion("101230456").isEmpty());
+	}
+
+	@Test
+	@DisplayName("CP-PER-03 rechazar correo sin arroba")
+	void rechazarCorreoSinArroba() {
+		// Arrange
+		Trabajador trabajador = new Trabajador("101230456", "Ana Mora Solís", "88881234",
+				"ana.mora.ostraverde.cr", "Operaria de cosecha");
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> trabajadorService.registrar(trabajador));
+
+		// Assert
+		assertTrue(error.getMessage().contains("correo"));
+		assertTrue(trabajadorRepository.buscarPorIdentificacion("101230456").isEmpty());
+	}
+
+	@Test
+	@DisplayName("CP-PER-04 rechazar teléfono de 7 dígitos")
+	void rechazarTelefonoDeSieteDigitos() {
+		// Arrange
+		Trabajador trabajador = new Trabajador("101230456", "Ana Mora Solís", "8888123",
+				"ana.mora@ostraverde.cr", "Operaria de cosecha");
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> trabajadorService.registrar(trabajador));
+
+		// Assert
+		assertTrue(error.getMessage().contains("teléfono"));
+		assertTrue(trabajadorRepository.buscarPorIdentificacion("101230456").isEmpty());
+	}
+
+	@Test
+	@DisplayName("CP-PER-05 rechazar teléfono no numérico")
+	void rechazarTelefonoNoNumerico() {
+		// Arrange
+		Trabajador trabajador = new Trabajador("101230456", "Ana Mora Solís", "8888abcd",
+				"ana.mora@ostraverde.cr", "Operaria de cosecha");
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> trabajadorService.registrar(trabajador));
+
+		// Assert
+		assertTrue(error.getMessage().contains("teléfono"));
+		assertTrue(trabajadorRepository.buscarPorIdentificacion("101230456").isEmpty());
 	}
 
 }
