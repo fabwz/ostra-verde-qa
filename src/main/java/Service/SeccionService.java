@@ -15,15 +15,20 @@ public class SeccionService {
 
 	/** Registra una sección nueva (RF-01, RN-01). */
 	public void registrar(Seccion seccion) {
-		validarCodigo(seccion.getCodigo());
-		validarNombre(seccion.getNombre());
-		validarCapacidad(seccion.getCapacidadMaxima());
-		validarCodigoNoExiste(seccion.getCodigo());
+		validar(seccion);
 		seccionRepository.guardar(seccion);
 	}
 
+	// Agrupa las validaciones previas al registro (RF-01, RN-01).
+	private void validar(Seccion seccion) {
+		validarCodigo(seccion.getCodigo());
+		validarNombre(seccion.getNombre());
+		validarCapacidad(seccion.getCapacidadMaxima());
+		validarCodigoUnico(seccion.getCodigo());
+	}
+
 	// Rechaza el registro si ya existe una sección con ese código (RN-01).
-	private void validarCodigoNoExiste(String codigo) {
+	private void validarCodigoUnico(String codigo) {
 		if (seccionRepository.buscarPorCodigo(codigo).isPresent()) {
 			throw new ReglaNegocioException("El código de la sección ya existe");
 		}
