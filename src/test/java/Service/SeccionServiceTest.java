@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -279,6 +280,51 @@ class SeccionServiceTest {
 		// Assert
 		assertTrue(error.getMessage().contains("capacidad"));
 		assertEquals(500, seccionRepository.buscarPorCodigo("S-01").get().getCapacidadMaxima());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-16 consultar únicamente las secciones disponibles")
+	void consultarSoloSeccionesDisponibles() {
+		// Arrange
+		seccionService.registrar(new Seccion("S-01", "Sala Norte", 500, EstadoSeccion.DISPONIBLE));
+		seccionService.registrar(new Seccion("S-02", "Sala Sur", 300, EstadoSeccion.OCUPADA));
+		seccionService.registrar(new Seccion("S-03", "Sala Oeste", 200, EstadoSeccion.EN_MANTENIMIENTO));
+
+		// Act
+		List<Seccion> disponibles = seccionService.consultarDisponibles();
+
+		// Assert
+		assertEquals(1, disponibles.size());
+		assertEquals("S-01", disponibles.get(0).getCodigo());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-17 consultar sin secciones disponibles")
+	void consultarSinSeccionesDisponibles() {
+		// Arrange
+		seccionService.registrar(new Seccion("S-02", "Sala Sur", 300, EstadoSeccion.OCUPADA));
+		seccionService.registrar(new Seccion("S-03", "Sala Oeste", 200, EstadoSeccion.EN_MANTENIMIENTO));
+
+		// Act
+		List<Seccion> disponibles = seccionService.consultarDisponibles();
+
+		// Assert
+		assertTrue(disponibles.isEmpty());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-18 consultar con una única sección disponible")
+	void consultarConUnaSeccionDisponible() {
+		// Arrange
+		seccionService.registrar(new Seccion("S-01", "Sala Norte", 500, EstadoSeccion.DISPONIBLE));
+		seccionService.registrar(new Seccion("S-02", "Sala Sur", 300, EstadoSeccion.OCUPADA));
+
+		// Act
+		List<Seccion> disponibles = seccionService.consultarDisponibles();
+
+		// Assert
+		assertEquals(1, disponibles.size());
+		assertEquals("S-01", disponibles.get(0).getCodigo());
 	}
 
 }

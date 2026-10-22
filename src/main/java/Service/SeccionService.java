@@ -1,5 +1,8 @@
 package Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Exception.ReglaNegocioException;
 import Model.Seccion;
 import Repository.SeccionRepository;
@@ -28,6 +31,11 @@ public class SeccionService {
 			validarCodigoUnico(datosNuevos.getCodigo());
 		}
 		seccionRepository.guardar(datosNuevos);
+	}
+
+	/** Consulta las secciones disponibles para nuevas siembras (RF-03, RES-01). */
+	public List<Seccion> consultarDisponibles() {
+		return new ArrayList<>();
 	}
 
 	// Indica si los datos nuevos traen un código distinto al de la sección modificada.
