@@ -155,4 +155,58 @@ class SeccionServiceTest {
 		assertTrue(error.getMessage().contains("estado"));
 	}
 
+	@Test
+	@DisplayName("CP-SEC-07 rechazar código duplicado")
+	void rechazarCodigoDuplicado() {
+		// Arrange
+		seccionService.registrar(new Seccion("S-01", "Sala Norte", 500, EstadoSeccion.DISPONIBLE));
+		Seccion duplicada = new Seccion("S-01", "Sala Este", 300, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> seccionService.registrar(duplicada));
+
+		// Assert
+		assertTrue(error.getMessage().contains("código"));
+		Seccion original = seccionRepository.buscarPorCodigo("S-01").get();
+		assertEquals("Sala Norte", original.getNombre());
+		assertEquals(500, original.getCapacidadMaxima());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-08 registrar nombre repetido con código distinto")
+	void registrarNombreRepetidoConCodigoDistinto() {
+		// Arrange
+		seccionService.registrar(new Seccion("S-01", "Sala Norte", 500, EstadoSeccion.DISPONIBLE));
+		Seccion seccion = new Seccion("S-04", "Sala Norte", 300, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		seccionService.registrar(seccion);
+
+		// Assert
+		Optional<Seccion> guardada = seccionRepository.buscarPorCodigo("S-04");
+		assertTrue(guardada.isPresent());
+		assertEquals("Sala Norte", guardada.get().getNombre());
+		assertEquals(300, guardada.get().getCapacidadMaxima());
+		assertEquals(EstadoSeccion.DISPONIBLE, guardada.get().getEstado());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-09 registrar código distinto por un carácter")
+	void registrarCodigoDistintoPorUnCaracter() {
+		// Arrange
+		seccionService.registrar(new Seccion("S-01", "Sala Norte", 500, EstadoSeccion.DISPONIBLE));
+		Seccion seccion = new Seccion("S-011", "Sala Centro", 300, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		seccionService.registrar(seccion);
+
+		// Assert
+		Optional<Seccion> guardada = seccionRepository.buscarPorCodigo("S-011");
+		assertTrue(guardada.isPresent());
+		assertEquals("Sala Centro", guardada.get().getNombre());
+		assertEquals(300, guardada.get().getCapacidadMaxima());
+		assertEquals(EstadoSeccion.DISPONIBLE, guardada.get().getEstado());
+	}
+
 }
