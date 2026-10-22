@@ -18,7 +18,15 @@ public class TrabajadorService {
 	/** Registra un trabajador nuevo (RF-04, RN-02). */
 	public void registrar(Trabajador trabajador) {
 		validar(trabajador);
+		validarIdentificacionUnica(trabajador.getIdentificacion());
 		trabajadorRepository.guardar(trabajador);
+	}
+
+	// Rechaza la operación si ya existe un trabajador con esa identificación (RN-02).
+	private void validarIdentificacionUnica(String identificacion) {
+		if (trabajadorRepository.buscarPorIdentificacion(identificacion).isPresent()) {
+			throw new ReglaNegocioException("La identificación ya está registrada");
+		}
 	}
 
 	// Valida los campos del trabajador antes de guardarlo (RF-04, RNF-02).
