@@ -14,6 +14,7 @@ public class TrabajadorService {
 
 	/** Registra un trabajador nuevo (RF-04, RN-02). */
 	public void registrar(Trabajador trabajador) {
+		trabajadorRepository.guardar(trabajador);
 	}
 
 }
