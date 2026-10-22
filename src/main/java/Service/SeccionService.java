@@ -18,7 +18,15 @@ public class SeccionService {
 		validarCodigo(seccion.getCodigo());
 		validarNombre(seccion.getNombre());
 		validarCapacidad(seccion.getCapacidadMaxima());
+		validarCodigoNoExiste(seccion.getCodigo());
 		seccionRepository.guardar(seccion);
+	}
+
+	// Rechaza el registro si ya existe una sección con ese código (RN-01).
+	private void validarCodigoNoExiste(String codigo) {
+		if (seccionRepository.buscarPorCodigo(codigo).isPresent()) {
+			throw new ReglaNegocioException("El código de la sección ya existe");
+		}
 	}
 
 	// Exige que el código no sea nulo ni esté en blanco (RF-01).
