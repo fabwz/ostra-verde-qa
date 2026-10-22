@@ -21,6 +21,20 @@ public class SeccionService {
 
 	/** Modifica los datos de una sección existente (RF-02, RN-01). */
 	public void modificar(String codigo, Seccion datosNuevos) {
+		validarSeccionExiste(codigo);
+		if (!codigo.equals(datosNuevos.getCodigo())) {
+			validarCodigoUnico(datosNuevos.getCodigo());
+		}
+		validarNombre(datosNuevos.getNombre());
+		validarCapacidad(datosNuevos.getCapacidadMaxima());
+		seccionRepository.guardar(datosNuevos);
+	}
+
+	// Rechaza la operación si no existe una sección con ese código (RF-02).
+	private void validarSeccionExiste(String codigo) {
+		if (seccionRepository.buscarPorCodigo(codigo).isEmpty()) {
+			throw new ReglaNegocioException("La sección no existe");
+		}
 	}
 
 	// Agrupa las validaciones previas al registro (RF-01, RN-01).
