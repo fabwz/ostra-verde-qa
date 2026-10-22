@@ -1,9 +1,9 @@
 package Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import Exception.ReglaNegocioException;
+import Model.EstadoSeccion;
 import Model.Seccion;
 import Repository.SeccionRepository;
 
@@ -35,7 +35,9 @@ public class SeccionService {
 
 	/** Consulta las secciones disponibles para nuevas siembras (RF-03, RES-01). */
 	public List<Seccion> consultarDisponibles() {
-		return new ArrayList<>();
+		return seccionRepository.listarTodas().stream()
+				.filter(seccion -> seccion.getEstado() == EstadoSeccion.DISPONIBLE)
+				.toList();
 	}
 
 	// Indica si los datos nuevos traen un código distinto al de la sección modificada.

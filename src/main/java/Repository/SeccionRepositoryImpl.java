@@ -27,7 +27,7 @@ public class SeccionRepositoryImpl implements SeccionRepository {
 
 	@Override
 	public List<Seccion> listarTodas() {
-		return new ArrayList<>();
+		return new ArrayList<>(secciones.values());
 	}
 
 }
