@@ -17,12 +17,12 @@ public class TrabajadorService {
 
 	/** Registra un trabajador nuevo (RF-04, RN-02). */
 	public void registrar(Trabajador trabajador) {
-		validarCampos(trabajador);
+		validar(trabajador);
 		trabajadorRepository.guardar(trabajador);
 	}
 
 	// Valida los campos del trabajador antes de guardarlo (RF-04, RNF-02).
-	private void validarCampos(Trabajador trabajador) {
+	private void validar(Trabajador trabajador) {
 		validarTelefono(trabajador.getTelefono());
 		validarCorreo(trabajador.getCorreo());
 		validarCargo(trabajador.getCargo());
