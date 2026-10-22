@@ -15,19 +15,24 @@ public class SeccionService {
 
 	/** Registra una sección nueva (RF-01, RN-01). */
 	public void registrar(Seccion seccion) {
-		validar(seccion);
+		validarCampos(seccion);
+		validarCodigoUnico(seccion.getCodigo());
 		seccionRepository.guardar(seccion);
 	}
 
 	/** Modifica los datos de una sección existente (RF-02, RN-01). */
 	public void modificar(String codigo, Seccion datosNuevos) {
 		validarSeccionExiste(codigo);
-		if (!codigo.equals(datosNuevos.getCodigo())) {
+		validarCampos(datosNuevos);
+		if (cambiaDeCodigo(codigo, datosNuevos)) {
 			validarCodigoUnico(datosNuevos.getCodigo());
 		}
-		validarNombre(datosNuevos.getNombre());
-		validarCapacidad(datosNuevos.getCapacidadMaxima());
 		seccionRepository.guardar(datosNuevos);
+	}
+
+	// Indica si los datos nuevos traen un código distinto al de la sección modificada.
+	private boolean cambiaDeCodigo(String codigo, Seccion datosNuevos) {
+		return !codigo.equals(datosNuevos.getCodigo());
 	}
 
 	// Rechaza la operación si no existe una sección con ese código (RF-02).
@@ -37,15 +42,14 @@ public class SeccionService {
 		}
 	}
 
-	// Agrupa las validaciones previas al registro (RF-01, RN-01).
-	private void validar(Seccion seccion) {
+	// Valida los campos comunes al registro y a la modificación (RF-01, RF-02).
+	private void validarCampos(Seccion seccion) {
 		validarCodigo(seccion.getCodigo());
 		validarNombre(seccion.getNombre());
 		validarCapacidad(seccion.getCapacidadMaxima());
-		validarCodigoUnico(seccion.getCodigo());
 	}
 
-	// Rechaza el registro si ya existe una sección con ese código (RN-01).
+	// Rechaza la operación si ya existe una sección con ese código (RN-01).
 	private void validarCodigoUnico(String codigo) {
 		if (seccionRepository.buscarPorCodigo(codigo).isPresent()) {
 			throw new ReglaNegocioException("El código de la sección ya existe");
