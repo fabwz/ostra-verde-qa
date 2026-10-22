@@ -1,10 +1,13 @@
 package Service;
 
+import Exception.ReglaNegocioException;
 import Model.Trabajador;
 import Repository.TrabajadorRepository;
 
 /** Reglas de negocio del módulo de personal. */
 public class TrabajadorService {
+
+	private static final int LONGITUD_TELEFONO = 8;
 
 	private final TrabajadorRepository trabajadorRepository;
 
@@ -14,7 +17,45 @@ public class TrabajadorService {
 
 	/** Registra un trabajador nuevo (RF-04, RN-02). */
 	public void registrar(Trabajador trabajador) {
+		validarCampos(trabajador);
 		trabajadorRepository.guardar(trabajador);
+	}
+
+	// Valida los campos del trabajador antes de guardarlo (RF-04, RNF-02).
+	private void validarCampos(Trabajador trabajador) {
+		validarTelefono(trabajador.getTelefono());
+		validarCorreo(trabajador.getCorreo());
+		validarCargo(trabajador.getCargo());
+	}
+
+	// Exige un teléfono numérico de exactamente 8 dígitos (S-04).
+	private void validarTelefono(String telefono) {
+		if (telefono != null && !telefono.chars().allMatch(c -> c >= '0' && c <= '9')) {
+			throw new ReglaNegocioException("El teléfono debe ser numérico");
+		}
+		if (telefono == null || telefono.length() != LONGITUD_TELEFONO) {
+			throw new ReglaNegocioException("El teléfono debe tener 8 dígitos");
+		}
+	}
+
+	// Exige un correo con formato usuario@dominio (S-04).
+	private void validarCorreo(String correo) {
+		if (correo == null || !tieneFormatoDeCorreo(correo)) {
+			throw new ReglaNegocioException("El correo no tiene formato válido");
+		}
+	}
+
+	// Verifica que haya texto, una sola arroba y texto después de ella.
+	private boolean tieneFormatoDeCorreo(String correo) {
+		int arroba = correo.indexOf('@');
+		return arroba > 0 && arroba == correo.lastIndexOf('@') && arroba < correo.length() - 1;
+	}
+
+	// Exige que el cargo no sea nulo ni esté en blanco (RF-04).
+	private void validarCargo(String cargo) {
+		if (cargo == null || cargo.isBlank()) {
+			throw new ReglaNegocioException("El cargo es obligatorio");
+		}
 	}
 
 }
