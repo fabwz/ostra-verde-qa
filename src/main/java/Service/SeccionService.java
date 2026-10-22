@@ -19,6 +19,10 @@ public class SeccionService {
 		seccionRepository.guardar(seccion);
 	}
 
+	/** Modifica los datos de una sección existente (RF-02, RN-01). */
+	public void modificar(String codigo, Seccion datosNuevos) {
+	}
+
 	// Agrupa las validaciones previas al registro (RF-01, RN-01).
 	private void validar(Seccion seccion) {
 		validarCodigo(seccion.getCodigo());

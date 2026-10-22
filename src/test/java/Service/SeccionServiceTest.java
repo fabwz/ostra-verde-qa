@@ -209,4 +209,76 @@ class SeccionServiceTest {
 		assertEquals(EstadoSeccion.DISPONIBLE, guardada.get().getEstado());
 	}
 
+	@Test
+	@DisplayName("CP-SEC-12 modificar nombre y capacidad de sección existente")
+	void modificarSeccionExistente() {
+		// Arrange
+		seccionService.registrar(new Seccion("S-01", "Sala Norte", 500, EstadoSeccion.DISPONIBLE));
+		Seccion datosNuevos = new Seccion("S-01", "Sala Norte 2", 600, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		seccionService.modificar("S-01", datosNuevos);
+
+		// Assert
+		Optional<Seccion> modificada = seccionRepository.buscarPorCodigo("S-01");
+		assertTrue(modificada.isPresent());
+		assertEquals("S-01", modificada.get().getCodigo());
+		assertEquals("Sala Norte 2", modificada.get().getNombre());
+		assertEquals(600, modificada.get().getCapacidadMaxima());
+		assertEquals(EstadoSeccion.DISPONIBLE, modificada.get().getEstado());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-13 rechazar modificar sección inexistente")
+	void rechazarModificarSeccionInexistente() {
+		// Arrange
+		Seccion datosNuevos = new Seccion("S-99", "Sala Fantasma", 100, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> seccionService.modificar("S-99", datosNuevos));
+
+		// Assert
+		assertTrue(error.getMessage().contains("no existe"));
+	}
+
+	@Test
+	@DisplayName("CP-SEC-14 rechazar cambio de código a uno existente")
+	void rechazarCambioDeCodigoExistente() {
+		// Arrange
+		seccionService.registrar(new Seccion("S-01", "Sala Norte", 500, EstadoSeccion.DISPONIBLE));
+		seccionService.registrar(new Seccion("S-02", "Sala Sur", 300, EstadoSeccion.DISPONIBLE));
+		Seccion datosNuevos = new Seccion("S-01", "Sala Sur", 300, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> seccionService.modificar("S-02", datosNuevos));
+
+		// Assert
+		assertTrue(error.getMessage().contains("código"));
+		Seccion segunda = seccionRepository.buscarPorCodigo("S-02").get();
+		assertEquals("S-02", segunda.getCodigo());
+		assertEquals("Sala Sur", segunda.getNombre());
+		assertEquals(300, segunda.getCapacidadMaxima());
+		Seccion primera = seccionRepository.buscarPorCodigo("S-01").get();
+		assertEquals("Sala Norte", primera.getNombre());
+		assertEquals(500, primera.getCapacidadMaxima());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-15 rechazar modificar con capacidad cero")
+	void rechazarModificarConCapacidadCero() {
+		// Arrange
+		seccionService.registrar(new Seccion("S-01", "Sala Norte", 500, EstadoSeccion.DISPONIBLE));
+		Seccion datosNuevos = new Seccion("S-01", "Sala Norte", 0, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> seccionService.modificar("S-01", datosNuevos));
+
+		// Assert
+		assertTrue(error.getMessage().contains("capacidad"));
+		assertEquals(500, seccionRepository.buscarPorCodigo("S-01").get().getCapacidadMaxima());
+	}
+
 }
