@@ -14,6 +14,7 @@ public class SeccionService {
 
 	/** Registra una sección nueva (RF-01, RN-01). */
 	public void registrar(Seccion seccion) {
+		seccionRepository.guardar(seccion);
 	}
 
 }
