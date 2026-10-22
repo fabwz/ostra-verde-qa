@@ -15,19 +15,29 @@ public class SeccionService {
 
 	/** Registra una sección nueva (RF-01, RN-01). */
 	public void registrar(Seccion seccion) {
-		validarDatos(seccion);
+		validarCodigo(seccion.getCodigo());
+		validarNombre(seccion.getNombre());
+		validarCapacidad(seccion.getCapacidadMaxima());
 		seccionRepository.guardar(seccion);
 	}
 
-	// Valida los campos obligatorios y la capacidad antes de guardar (RF-01, S-03).
-	private void validarDatos(Seccion seccion) {
-		if (estaVacio(seccion.getCodigo())) {
+	// Exige que el código no sea nulo ni esté en blanco (RF-01).
+	private void validarCodigo(String codigo) {
+		if (estaVacio(codigo)) {
 			throw new ReglaNegocioException("El código es obligatorio");
 		}
-		if (estaVacio(seccion.getNombre())) {
+	}
+
+	// Exige que el nombre no sea nulo ni esté en blanco (RF-01).
+	private void validarNombre(String nombre) {
+		if (estaVacio(nombre)) {
 			throw new ReglaNegocioException("El nombre es obligatorio");
 		}
-		if (seccion.getCapacidadMaxima() <= 0) {
+	}
+
+	// Exige una capacidad mayor que cero (RF-01, S-03).
+	private void validarCapacidad(int capacidadMaxima) {
+		if (capacidadMaxima <= 0) {
 			throw new ReglaNegocioException("La capacidad debe ser mayor que cero");
 		}
 	}
