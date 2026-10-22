@@ -1,6 +1,7 @@
 package Service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import Exception.ReglaNegocioException;
 import Model.EstadoSeccion;
 import Model.Seccion;
 import Repository.SeccionRepository;
@@ -77,6 +79,80 @@ class SeccionServiceTest {
 		assertEquals("Sala Techo", guardada.get().getNombre());
 		assertEquals(200, guardada.get().getCapacidadMaxima());
 		assertEquals(EstadoSeccion.EN_MANTENIMIENTO, guardada.get().getEstado());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-02 rechazar código vacío")
+	void rechazarCodigoVacio() {
+		// Arrange
+		Seccion seccion = new Seccion("", "Sala Norte", 500, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> seccionService.registrar(seccion));
+
+		// Assert
+		assertTrue(error.getMessage().contains("código"));
+	}
+
+	@Test
+	@DisplayName("CP-SEC-04 rechazar capacidad cero")
+	void rechazarCapacidadCero() {
+		// Arrange
+		Seccion seccion = new Seccion("S-03", "Sala Oeste", 0, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> seccionService.registrar(seccion));
+
+		// Assert
+		assertTrue(error.getMessage().contains("capacidad"));
+		assertTrue(seccionRepository.buscarPorCodigo("S-03").isEmpty());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-05 rechazar capacidad negativa")
+	void rechazarCapacidadNegativa() {
+		// Arrange
+		Seccion seccion = new Seccion("S-03", "Sala Oeste", -10, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> seccionService.registrar(seccion));
+
+		// Assert
+		assertTrue(error.getMessage().contains("capacidad"));
+		assertTrue(seccionRepository.buscarPorCodigo("S-03").isEmpty());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-06 rechazar nombre vacío")
+	void rechazarNombreVacio() {
+		// Arrange
+		Seccion seccion = new Seccion("S-03", "", 500, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> seccionService.registrar(seccion));
+
+		// Assert
+		assertTrue(error.getMessage().contains("nombre"));
+		assertTrue(seccionRepository.buscarPorCodigo("S-03").isEmpty());
+	}
+
+	@Test
+	@DisplayName("CP-SEC-11 rechazar estado no permitido")
+	void rechazarEstadoNoPermitido() {
+		// Arrange
+		String estadoTexto = "Cerrada";
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> seccionService.registrar(
+						new Seccion("S-06", "Sala Patio", 200, EstadoSeccion.desdeTexto(estadoTexto))));
+
+		// Assert
+		assertTrue(error.getMessage().contains("estado"));
 	}
 
 }
