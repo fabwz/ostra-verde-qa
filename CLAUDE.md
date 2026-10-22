@@ -44,11 +44,18 @@ Reglas:
 
 - Java con Maven, Spring Boot (solo como base del proyecto), JUnit 5 y Mockito. Usar la versión de Java definida en `pom.xml`.
 - Sin base de datos, sin web, sin interfaz gráfica.
-- Paquete base `cr.ostraverde`, con la misma estructura en `src/main/java` y `src/test/java`:
-  - `model/`: Seccion, Trabajador, Siembra, Producto, Aplicacion, Cosecha, EstadoSeccion.
-  - `repository/`: una interfaz por entidad y su implementación en memoria (un `Map`).
-  - `service/`: un servicio por módulo (SeccionService, TrabajadorService, SiembraService, ProductoService, AplicacionService, CosechaService, ReporteService).
-  - `exception/`: ReglaNegocioException.
+- Los paquetes van en la raíz de `src/main/java`, sin prefijo `cr.ostraverde`, siguiendo la convención del curso (nombres en PascalCase). Las pruebas en `src/test/java` usan los mismos nombres de paquete:
+  - `Model/`: Seccion, Trabajador, Siembra, Producto, Aplicacion, Cosecha, EstadoSeccion.
+  - `Repository/`: una interfaz por entidad y su implementación en memoria (un `Map`), por ejemplo `SeccionRepository` y `SeccionRepositoryImpl`.
+  - `Service/`: un servicio por módulo (SeccionService, TrabajadorService, SiembraService, ProductoService, AplicacionService, CosechaService, ReporteService).
+  - `Exception/`: ReglaNegocioException.
+- La clase `OstraVerdeQaApplication` y su prueba de arranque se quedan en `cr.ostraverde`; no moverlas.
+- Nomenclatura de clases, con el patrón `<Entidad><Capa>` usado en las actividades del curso:
+  - Entidad en singular y sin sufijo: `Seccion`, `Trabajador`, `Siembra`, `Producto`, `Aplicacion`, `Cosecha`.
+  - Repositorio: `SeccionRepository` (interfaz) y `SeccionRepositoryImpl` (implementación en memoria).
+  - Servicio: `SeccionService`. Prueba: `SeccionServiceTest`.
+  - Excepción única para todas las reglas de negocio: `ReglaNegocioException`.
+  - Nombres de métodos y atributos en español y camelCase (`registrar`, `buscarPorCodigo`).
 - La lógica de negocio va en `src/main/java`. Las pruebas, en `src/test/java`.
 - Los servicios que validan fechas reciben un `Clock` por constructor. Nunca usar `LocalDate.now()` sin `Clock`.
 - Los servicios reciben sus repositorios por constructor (inyección manual, sin `@Autowired` en campos).
