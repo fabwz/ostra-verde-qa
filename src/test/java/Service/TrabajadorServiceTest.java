@@ -47,7 +47,29 @@ class TrabajadorServiceTest {
 	}
 
 	@Test
-	@DisplayName("CP-PER-07 registrar mismo nombre con identificación distinta")
+	@DisplayName("CP-PER-06 rechazar identificación duplicada")
+	void rechazarIdentificacionDuplicada() {
+		// Arrange
+		trabajadorService.registrar(new Trabajador("101230456", "Ana Mora Solís", "88881234",
+				"ana.mora@ostraverde.cr", "Operaria de cosecha"));
+		Trabajador duplicado = new Trabajador("101230456", "Luis Vega Rojas", "70001234",
+				"luis.vega@ostraverde.cr", "Operario de cosecha");
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> trabajadorService.registrar(duplicado));
+
+		// Assert
+		assertTrue(error.getMessage().contains("identificación"));
+		Trabajador existente = trabajadorRepository.buscarPorIdentificacion("101230456").get();
+		assertEquals("Ana Mora Solís", existente.getNombreCompleto());
+		assertEquals("88881234", existente.getTelefono());
+		assertEquals("ana.mora@ostraverde.cr", existente.getCorreo());
+		assertEquals("Operaria de cosecha", existente.getCargo());
+	}
+
+	@Test
+	@DisplayName("CP-PER-07registrar mismo nombre con identificación distinta")
 	void registrarMismoNombreConIdentificacionDistinta() {
 		// Arrange
 		trabajadorService.registrar(new Trabajador("101230456", "Ana Mora Solís", "88881234",
