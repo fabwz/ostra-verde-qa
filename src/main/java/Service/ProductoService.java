@@ -32,6 +32,9 @@ public class ProductoService {
 
 	/** Elimina un producto que nunca ha sido utilizado (RF-11, RN-07). */
 	public void eliminar(String codigo) {
+		validarProductoExiste(codigo);
+		validarProductoNoUtilizado(codigo);
+		productoRepository.eliminar(codigo);
 	}
 
 	/** Consulta un producto por su código (RF-10). */
@@ -49,6 +52,13 @@ public class ProductoService {
 	private void validarProductoExiste(String codigo) {
 		if (productoRepository.buscarPorCodigo(codigo).isEmpty()) {
 			throw new ReglaNegocioException("El producto no existe");
+		}
+	}
+
+	// Rechaza la eliminación si el producto tiene al menos una aplicación (RN-07, S-13).
+	private void validarProductoNoUtilizado(String codigo) {
+		if (aplicacionRepository.existeConProducto(codigo)) {
+			throw new ReglaNegocioException("El producto ya fue utilizado y no puede eliminarse");
 		}
 	}
 

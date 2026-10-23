@@ -31,8 +31,10 @@ public class ProductoRepositoryImpl implements ProductoRepository {
 		return new ArrayList<>(productos.values());
 	}
 
+	/** Elimina el producto con ese código (RF-11). */
 	@Override
 	public void eliminar(String codigo) {
+		productos.remove(codigo);
 	}
 
 }
