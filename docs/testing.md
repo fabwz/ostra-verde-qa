@@ -208,27 +208,27 @@ Columnas: ID del caso, requerimientos que valida, tipo, precondición, datos de 
 
 | ID caso | Requerimientos | Tipo | Precondición | Datos de entrada | Resultado esperado | Resultado obtenido |
 | --- | --- | --- | --- | --- | --- | --- |
-| CP-SIE-01 | RF-07, RN-03, RN-04, RN-05, RN-16 | Positivo | S-01 Disponible; existe el trabajador 101230456 | Código SI-001; fecha: hace 3 días; sección S-01; sustratos 200; responsable 101230456; observaciones Lote inicial | Siembra guardada | Pendiente (lógica hecha) |
-| CP-SIE-02 | RF-07, RN-06 | Positivo | Siembra SI-001 recién registrada | Consultar el estado de S-01 | S-01 queda en estado Ocupada | Pendiente (lógica hecha) |
-| CP-SIE-03 | RF-07, RN-03 | Negativo | S-03 En mantenimiento | Código SI-002; sección S-03; resto de datos válidos | Registro rechazado; la sección no está disponible | Pendiente (lógica hecha) |
-| CP-SIE-04 | RF-07 | Negativo | No existe la sección S-99 | Código SI-002; sección S-99; resto de datos válidos | Registro rechazado; la sección no existe | Pendiente (lógica hecha) |
-| CP-SIE-05 | RN-04 | Positivo | — | Fecha: hace 30 días; resto de datos válidos | Siembra guardada | Pendiente (lógica hecha) |
-| CP-SIE-06 | RN-04 | Límite | — | Fecha: hoy; resto de datos válidos | Siembra guardada (hoy no es fecha futura) | Pendiente (lógica hecha) |
-| CP-SIE-07 | RN-04 | Límite | — | Fecha: mañana; resto de datos válidos | Registro rechazado; la fecha es futura | Pendiente (lógica hecha) |
-| CP-SIE-08 | RN-04 | Negativo | — | Fecha: dentro de 1 año; resto de datos válidos | Registro rechazado; la fecha es futura | Pendiente (lógica hecha) |
-| CP-SIE-09 | RN-05 | Límite | — | Sustratos 1; resto de datos válidos | Siembra guardada (valor mínimo válido) | Pendiente (lógica hecha) |
-| CP-SIE-10 | RN-05 | Límite | — | Sustratos 0; resto de datos válidos | Registro rechazado; los sustratos deben ser mayores que cero | Pendiente (lógica hecha) |
-| CP-SIE-11 | RN-05 | Negativo | — | Sustratos -5; resto de datos válidos | Registro rechazado; los sustratos deben ser mayores que cero | Pendiente (lógica hecha) |
-| CP-SIE-12 | RN-05 | Negativo | — | Sustratos 2.5; resto de datos válidos | Registro rechazado; los sustratos deben ser un número entero | Pendiente (lógica hecha) |
-| CP-SIE-13 | RN-06 | Negativo | S-01 Ocupada con la siembra SI-001 | Código SI-002; sección S-01; resto de datos válidos | Registro rechazado; la sección está ocupada; SI-001 no cambia | Pendiente (lógica hecha) |
-| CP-SIE-14 | RN-06, RN-03, RN-15 | Positivo | SI-001 ya fue cosechada y S-01 volvió a Disponible | Código SI-003; sección S-01; resto de datos válidos | Siembra guardada; S-01 vuelve a quedar Ocupada | Pendiente (lógica hecha) |
-| CP-SIE-15 | RN-06 | Límite | S-01 y S-02 Disponibles | Dos siembras el mismo día, una en S-01 y otra en S-02 | Ambas guardadas; ninguna afecta a la otra | Pendiente (lógica hecha) |
-| CP-SIE-16 | RF-07, RN-16 | Negativo | No existe el trabajador 999999999 | Responsable 999999999; resto de datos válidos | Registro rechazado; el responsable no está registrado | Pendiente (lógica hecha) |
-| CP-SIE-17 | RN-16 | Límite | Trabajador 303450678 recién registrado | Responsable 303450678; resto de datos válidos | Siembra guardada | Pendiente (lógica hecha) |
-| CP-SIE-18 | RF-07, RN-17 | Negativo | Existe SI-001; S-02 Disponible | Código SI-001; sección S-02; resto de datos válidos | Registro rechazado; el código ya existe | Pendiente (lógica hecha) |
-| CP-SIE-19 | RN-17 | Límite | Existe SI-001; S-02 Disponible | Código SI-0011; sección S-02; resto de datos válidos | Siembra guardada (código distinto por un carácter) | Pendiente (lógica hecha) |
-| CP-SIE-20 | RF-07 | Límite | — | Observaciones vacías; resto de datos válidos | Siembra guardada (campo opcional) | Pendiente (lógica hecha) |
-| CP-SIE-21 | RF-07, RNF-02 | Negativo | — | Código de siembra vacío; resto de datos válidos | Registro rechazado; el código es obligatorio | Pendiente (lógica hecha) |
+| CP-SIE-01 | RF-07, RN-03, RN-04, RN-05, RN-16 | Positivo | S-01 Disponible; existe el trabajador 101230456 | Código SI-001; fecha: hace 3 días; sección S-01; sustratos 200; responsable 101230456; observaciones Lote inicial | Siembra guardada | Aprobado (SiembraServiceTest) |
+| CP-SIE-02 | RF-07, RN-06 | Positivo | Siembra SI-001 recién registrada | Consultar el estado de S-01 | S-01 queda en estado Ocupada | Aprobado (SiembraServiceTest) |
+| CP-SIE-03 | RF-07, RN-03 | Negativo | S-03 En mantenimiento | Código SI-002; sección S-03; resto de datos válidos | Registro rechazado; la sección no está disponible | Aprobado (SiembraServiceTest) |
+| CP-SIE-04 | RF-07 | Negativo | No existe la sección S-99 | Código SI-002; sección S-99; resto de datos válidos | Registro rechazado; la sección no existe | Aprobado (SiembraServiceTest) |
+| CP-SIE-05 | RN-04 | Positivo | — | Fecha: hace 30 días; resto de datos válidos | Siembra guardada | Aprobado (SiembraServiceTest) |
+| CP-SIE-06 | RN-04 | Límite | — | Fecha: hoy; resto de datos válidos | Siembra guardada (hoy no es fecha futura) | Aprobado (SiembraServiceTest) |
+| CP-SIE-07 | RN-04 | Límite | — | Fecha: mañana; resto de datos válidos | Registro rechazado; la fecha es futura | Aprobado (SiembraServiceTest) |
+| CP-SIE-08 | RN-04 | Negativo | — | Fecha: dentro de 1 año; resto de datos válidos | Registro rechazado; la fecha es futura | Aprobado (SiembraServiceTest) |
+| CP-SIE-09 | RN-05 | Límite | — | Sustratos 1; resto de datos válidos | Siembra guardada (valor mínimo válido) | Aprobado (SiembraServiceTest) |
+| CP-SIE-10 | RN-05 | Límite | — | Sustratos 0; resto de datos válidos | Registro rechazado; los sustratos deben ser mayores que cero | Aprobado (SiembraServiceTest) |
+| CP-SIE-11 | RN-05 | Negativo | — | Sustratos -5; resto de datos válidos | Registro rechazado; los sustratos deben ser mayores que cero | Aprobado (SiembraServiceTest) |
+| CP-SIE-12 | RN-05 | Negativo | — | Sustratos 2.5; resto de datos válidos | Registro rechazado; los sustratos deben ser un número entero | Pendiente (sin prueba: el campo es int) |
+| CP-SIE-13 | RN-06 | Negativo | S-01 Ocupada con la siembra SI-001 | Código SI-002; sección S-01; resto de datos válidos | Registro rechazado; la sección está ocupada; SI-001 no cambia | Aprobado (SiembraServiceTest) |
+| CP-SIE-14 | RN-06, RN-03, RN-15 | Positivo | SI-001 ya fue cosechada y S-01 volvió a Disponible | Código SI-003; sección S-01; resto de datos válidos | Siembra guardada; S-01 vuelve a quedar Ocupada | Aprobado (SiembraServiceTest) |
+| CP-SIE-15 | RN-06 | Límite | S-01 y S-02 Disponibles | Dos siembras el mismo día, una en S-01 y otra en S-02 | Ambas guardadas; ninguna afecta a la otra | Aprobado (SiembraServiceTest) |
+| CP-SIE-16 | RF-07, RN-16 | Negativo | No existe el trabajador 999999999 | Responsable 999999999; resto de datos válidos | Registro rechazado; el responsable no está registrado | Aprobado (SiembraServiceTest) |
+| CP-SIE-17 | RN-16 | Límite | Trabajador 303450678 recién registrado | Responsable 303450678; resto de datos válidos | Siembra guardada | Aprobado (SiembraServiceTest) |
+| CP-SIE-18 | RF-07, RN-17 | Negativo | Existe SI-001; S-02 Disponible | Código SI-001; sección S-02; resto de datos válidos | Registro rechazado; el código ya existe | Aprobado (SiembraServiceTest) |
+| CP-SIE-19 | RN-17 | Límite | Existe SI-001; S-02 Disponible | Código SI-0011; sección S-02; resto de datos válidos | Siembra guardada (código distinto por un carácter) | Aprobado (SiembraServiceTest) |
+| CP-SIE-20 | RF-07 | Límite | — | Observaciones vacías; resto de datos válidos | Siembra guardada (campo opcional) | Aprobado (SiembraServiceTest) |
+| CP-SIE-21 | RF-07, RNF-02 | Negativo | — | Código de siembra vacío; resto de datos válidos | Registro rechazado; el código es obligatorio | Aprobado (SiembraServiceTest) |
 
 ### 4.4 Productos (16)
 
@@ -257,19 +257,19 @@ Columnas: ID del caso, requerimientos que valida, tipo, precondición, datos de 
 
 | ID caso | Requerimientos | Tipo | Precondición | Datos de entrada | Resultado esperado | Resultado obtenido |
 | --- | --- | --- | --- | --- | --- | --- |
-| CP-APL-01 | RF-12, RN-08, RN-09, RN-10, RN-11, RN-16 | Positivo | Datos generales | Código AP-001; fecha hoy; siembra SI-001; producto PR-01; cantidad 2.5; trabajador 101230456; observaciones Aplicación semanal | Aplicación guardada; aparece en el historial de aplicaciones | Pendiente (lógica hecha) |
-| CP-APL-02 | RN-08 | Negativo | No existe la siembra SI-999 | Siembra SI-999; resto de datos válidos | Registro rechazado; la siembra no existe | Pendiente (lógica hecha) |
-| CP-APL-03 | RF-12, RN-08 | Límite | SI-001 registrada hoy | Aplicación sobre SI-001 con fecha de hoy | Aplicación guardada | Pendiente (lógica hecha) |
-| CP-APL-04 | RN-09 | Negativo | No existe el producto PR-999 | Producto PR-999; resto de datos válidos | Registro rechazado; el producto no existe | Pendiente (lógica hecha) |
-| CP-APL-05 | RN-09 | Límite | Producto PR-03 recién registrado | Producto PR-03; resto de datos válidos | Aplicación guardada | Pendiente (lógica hecha) |
-| CP-APL-06 | RN-10 | Límite | — | Cantidad 0.01; resto de datos válidos | Aplicación guardada (valor mínimo positivo) | Pendiente (lógica hecha) |
-| CP-APL-07 | RN-10 | Límite | — | Cantidad 0; resto de datos válidos | Registro rechazado; la cantidad debe ser mayor que cero | Pendiente (lógica hecha) |
-| CP-APL-08 | RN-10 | Negativo | — | Cantidad -1; resto de datos válidos | Registro rechazado; la cantidad debe ser mayor que cero | Pendiente (lógica hecha) |
-| CP-APL-09 | RN-11 | Negativo | SI-001 con cosecha registrada | Aplicación sobre SI-001 | Registro rechazado; el cultivo ya fue cosechado | Pendiente (lógica hecha) |
-| CP-APL-10 | RN-11 | Límite | SI-001 cosechada hoy | Aplicación sobre SI-001 con fecha de hoy | Registro rechazado (la cosecha ya existe aunque sea el mismo día) | Pendiente (lógica hecha) |
-| CP-APL-11 | RF-12, RN-16 | Negativo | No existe el trabajador 999999999 | Trabajador 999999999; resto de datos válidos | Registro rechazado; el trabajador no está registrado | Pendiente (lógica hecha) |
-| CP-APL-12 | RF-12, RN-17 | Negativo | Existe AP-001 | Código AP-001; resto de datos válidos | Registro rechazado; el código ya existe | Pendiente (lógica hecha) |
-| CP-APL-13 | RF-12, RNF-02 | Negativo | — | Fecha de aplicación vacía; resto de datos válidos | Registro rechazado; la fecha es obligatoria | Pendiente (lógica hecha) |
+| CP-APL-01 | RF-12, RN-08, RN-09, RN-10, RN-11, RN-16 | Positivo | Datos generales | Código AP-001; fecha hoy; siembra SI-001; producto PR-01; cantidad 2.5; trabajador 101230456; observaciones Aplicación semanal | Aplicación guardada; aparece en el historial de aplicaciones | Aprobado (AplicacionServiceTest) |
+| CP-APL-02 | RN-08 | Negativo | No existe la siembra SI-999 | Siembra SI-999; resto de datos válidos | Registro rechazado; la siembra no existe | Aprobado (AplicacionServiceTest) |
+| CP-APL-03 | RF-12, RN-08 | Límite | SI-001 registrada hoy | Aplicación sobre SI-001 con fecha de hoy | Aplicación guardada | Aprobado (AplicacionServiceTest) |
+| CP-APL-04 | RN-09 | Negativo | No existe el producto PR-999 | Producto PR-999; resto de datos válidos | Registro rechazado; el producto no existe | Aprobado (AplicacionServiceTest) |
+| CP-APL-05 | RN-09 | Límite | Producto PR-03 recién registrado | Producto PR-03; resto de datos válidos | Aplicación guardada | Aprobado (AplicacionServiceTest) |
+| CP-APL-06 | RN-10 | Límite | — | Cantidad 0.01; resto de datos válidos | Aplicación guardada (valor mínimo positivo) | Aprobado (AplicacionServiceTest) |
+| CP-APL-07 | RN-10 | Límite | — | Cantidad 0; resto de datos válidos | Registro rechazado; la cantidad debe ser mayor que cero | Aprobado (AplicacionServiceTest) |
+| CP-APL-08 | RN-10 | Negativo | — | Cantidad -1; resto de datos válidos | Registro rechazado; la cantidad debe ser mayor que cero | Aprobado (AplicacionServiceTest) |
+| CP-APL-09 | RN-11 | Negativo | SI-001 con cosecha registrada | Aplicación sobre SI-001 | Registro rechazado; el cultivo ya fue cosechado | Aprobado (AplicacionServiceTest) |
+| CP-APL-10 | RN-11 | Límite | SI-001 cosechada hoy | Aplicación sobre SI-001 con fecha de hoy | Registro rechazado (la cosecha ya existe aunque sea el mismo día) | Aprobado (AplicacionServiceTest) |
+| CP-APL-11 | RF-12, RN-16 | Negativo | No existe el trabajador 999999999 | Trabajador 999999999; resto de datos válidos | Registro rechazado; el trabajador no está registrado | Aprobado (AplicacionServiceTest) |
+| CP-APL-12 | RF-12, RN-17 | Negativo | Existe AP-001 | Código AP-001; resto de datos válidos | Registro rechazado; el código ya existe | Aprobado (AplicacionServiceTest) |
+| CP-APL-13 | RF-12, RNF-02 | Negativo | — | Fecha de aplicación vacía; resto de datos válidos | Registro rechazado; la fecha es obligatoria | Aprobado (AplicacionServiceTest) |
 
 ### 4.6 Cosechas (17)
 
@@ -277,23 +277,23 @@ Columnas: ID del caso, requerimientos que valida, tipo, precondición, datos de 
 
 | ID caso | Requerimientos | Tipo | Precondición | Datos de entrada | Resultado esperado | Resultado obtenido |
 | --- | --- | --- | --- | --- | --- | --- |
-| CP-COS-01 | RF-13, RN-12, RN-13, RN-14, RN-16, RN-18 | Positivo | Datos generales | Código CO-001; fecha hoy; siembra SI-001; peso 45.5 kg; bandejas 30; responsable 101230456 | Cosecha guardada | Pendiente (lógica hecha) |
-| CP-COS-02 | RN-15 | Positivo | Cosecha CO-001 recién registrada | Consultar el estado de S-01 y las secciones disponibles | S-01 queda Disponible y aparece en la consulta de secciones disponibles | Pendiente (lógica hecha) |
-| CP-COS-03 | RN-12 | Negativo | SI-001 ya cosechada | Código CO-002; siembra SI-001; resto de datos válidos | Registro rechazado; la siembra ya fue cosechada | Pendiente (lógica hecha) |
-| CP-COS-04 | RN-12 | Límite | SI-001 cosechada hoy | Segunda cosecha de SI-001 con fecha de hoy | Registro rechazado (el límite es una cosecha por siembra) | Pendiente (lógica hecha) |
-| CP-COS-05 | RN-13 | Límite | — | Peso 0.01 kg; resto de datos válidos | Cosecha guardada (valor mínimo positivo) | Pendiente (lógica hecha) |
-| CP-COS-06 | RN-13 | Límite | — | Peso 0 kg; resto de datos válidos | Registro rechazado; el peso debe ser mayor que cero | Pendiente (lógica hecha) |
-| CP-COS-07 | RN-13 | Negativo | — | Peso -3 kg; resto de datos válidos | Registro rechazado; el peso debe ser mayor que cero | Pendiente (lógica hecha) |
-| CP-COS-08 | RN-14, RN-18 | Límite | SI-001 sembrada el día D | Fecha de cosecha D + 1 | Cosecha guardada (primer día válido) | Pendiente (lógica hecha) |
-| CP-COS-09 | RN-14 | Límite | SI-001 sembrada el día D | Fecha de cosecha D (misma fecha de siembra) | Registro rechazado; la fecha debe ser posterior a la siembra | Pendiente (lógica hecha) |
-| CP-COS-10 | RN-14 | Negativo | SI-001 sembrada el día D | Fecha de cosecha D - 1 | Registro rechazado; la fecha es anterior a la siembra | Pendiente (lógica hecha) |
-| CP-COS-11 | RN-18 | Negativo | No existe la siembra SI-999 | Siembra SI-999; resto de datos válidos | Registro rechazado; la siembra no existe | Pendiente (lógica hecha) |
-| CP-COS-12 | RF-13 | Negativo | — | Bandejas -2; resto de datos válidos | Registro rechazado; las bandejas deben ser mayores que cero | Pendiente (lógica hecha) |
-| CP-COS-13 | RF-13 | Límite | — | Bandejas 0; resto de datos válidos | Registro rechazado; las bandejas deben ser mayores que cero | Pendiente (lógica hecha) |
-| CP-COS-14 | RF-13, RN-16 | Negativo | No existe el trabajador 999999999 | Responsable 999999999; resto de datos válidos | Registro rechazado; el responsable no está registrado | Pendiente (lógica hecha) |
-| CP-COS-15 | RF-13, RN-17 | Negativo | Existe CO-001; SI-004 activa | Código CO-001; siembra SI-004; resto de datos válidos | Registro rechazado; el código ya existe | Pendiente (lógica hecha) |
-| CP-COS-16 | RN-15 | Negativo | SI-002 activa en S-02 Ocupada | Cosecha de SI-002 con peso 0 | Registro rechazado; S-02 sigue Ocupada | Pendiente (lógica hecha) |
-| CP-COS-17 | RN-15 | Límite | S-01 y S-02 Ocupadas; SI-001 está en S-01 | Cosechar SI-001 | Solo S-01 pasa a Disponible; S-02 sigue Ocupada | Pendiente (lógica hecha) |
+| CP-COS-01 | RF-13, RN-12, RN-13, RN-14, RN-16, RN-18 | Positivo | Datos generales | Código CO-001; fecha hoy; siembra SI-001; peso 45.5 kg; bandejas 30; responsable 101230456 | Cosecha guardada | Aprobado (CosechaServiceTest) |
+| CP-COS-02 | RN-15 | Positivo | Cosecha CO-001 recién registrada | Consultar el estado de S-01 y las secciones disponibles | S-01 queda Disponible y aparece en la consulta de secciones disponibles | Aprobado (CosechaServiceTest) |
+| CP-COS-03 | RN-12 | Negativo | SI-001 ya cosechada | Código CO-002; siembra SI-001; resto de datos válidos | Registro rechazado; la siembra ya fue cosechada | Aprobado (CosechaServiceTest) |
+| CP-COS-04 | RN-12 | Límite | SI-001 cosechada hoy | Segunda cosecha de SI-001 con fecha de hoy | Registro rechazado (el límite es una cosecha por siembra) | Aprobado (CosechaServiceTest) |
+| CP-COS-05 | RN-13 | Límite | — | Peso 0.01 kg; resto de datos válidos | Cosecha guardada (valor mínimo positivo) | Aprobado (CosechaServiceTest) |
+| CP-COS-06 | RN-13 | Límite | — | Peso 0 kg; resto de datos válidos | Registro rechazado; el peso debe ser mayor que cero | Aprobado (CosechaServiceTest) |
+| CP-COS-07 | RN-13 | Negativo | — | Peso -3 kg; resto de datos válidos | Registro rechazado; el peso debe ser mayor que cero | Aprobado (CosechaServiceTest) |
+| CP-COS-08 | RN-14, RN-18 | Límite | SI-001 sembrada el día D | Fecha de cosecha D + 1 | Cosecha guardada (primer día válido) | Aprobado (CosechaServiceTest) |
+| CP-COS-09 | RN-14 | Límite | SI-001 sembrada el día D | Fecha de cosecha D (misma fecha de siembra) | Registro rechazado; la fecha debe ser posterior a la siembra | Aprobado (CosechaServiceTest) |
+| CP-COS-10 | RN-14 | Negativo | SI-001 sembrada el día D | Fecha de cosecha D - 1 | Registro rechazado; la fecha es anterior a la siembra | Aprobado (CosechaServiceTest) |
+| CP-COS-11 | RN-18 | Negativo | No existe la siembra SI-999 | Siembra SI-999; resto de datos válidos | Registro rechazado; la siembra no existe | Aprobado (CosechaServiceTest) |
+| CP-COS-12 | RF-13 | Negativo | — | Bandejas -2; resto de datos válidos | Registro rechazado; las bandejas deben ser mayores que cero | Aprobado (CosechaServiceTest) |
+| CP-COS-13 | RF-13 | Límite | — | Bandejas 0; resto de datos válidos | Registro rechazado; las bandejas deben ser mayores que cero | Aprobado (CosechaServiceTest) |
+| CP-COS-14 | RF-13, RN-16 | Negativo | No existe el trabajador 999999999 | Responsable 999999999; resto de datos válidos | Registro rechazado; el responsable no está registrado | Aprobado (CosechaServiceTest) |
+| CP-COS-15 | RF-13, RN-17 | Negativo | Existe CO-001; SI-004 activa | Código CO-001; siembra SI-004; resto de datos válidos | Registro rechazado; el código ya existe | Aprobado (CosechaServiceTest) |
+| CP-COS-16 | RN-15 | Negativo | SI-002 activa en S-02 Ocupada | Cosecha de SI-002 con peso 0 | Registro rechazado; S-02 sigue Ocupada | Aprobado (CosechaServiceTest) |
+| CP-COS-17 | RN-15 | Límite | S-01 y S-02 Ocupadas; SI-001 está en S-01 | Cosechar SI-001 | Solo S-01 pasa a Disponible; S-02 sigue Ocupada | Aprobado (CosechaServiceTest) |
 
 ### 4.7 Reportes (18)
 
@@ -301,24 +301,24 @@ Columnas: ID del caso, requerimientos que valida, tipo, precondición, datos de 
 
 | ID caso | Requerimientos | Tipo | Precondición | Datos de entrada | Resultado esperado | Resultado obtenido |
 | --- | --- | --- | --- | --- | --- | --- |
-| CP-REP-01 | RF-14 | Positivo | Datos D-01 | Período del 2026-09-01 al 2026-09-30 | Producción total: 100 kg | Pendiente (lógica hecha) |
-| CP-REP-02 | RF-14 | Límite | Datos D-01 | Período del 2026-09-10 al 2026-09-25 (fechas de cosecha en los extremos) | Producción total: 100 kg (se incluyen ambos extremos) | Pendiente (lógica hecha) |
-| CP-REP-03 | RF-14 | Límite | Datos D-01 | Período del 2026-09-11 al 2026-09-24 | Producción total: 0 kg; sin error | Pendiente (lógica hecha) |
-| CP-REP-04 | RF-14 | Negativo | Datos D-01 | Fecha de inicio 2026-09-30 y fecha de fin 2026-09-01 | Reporte rechazado; la fecha de inicio es posterior a la de fin | Pendiente (lógica hecha) |
-| CP-REP-05 | RF-15 | Positivo | Datos D-01 | Reporte de producción por sección | S-01: 100 kg; S-02: 30 kg | Pendiente (lógica hecha) |
-| CP-REP-06 | RF-15 | Límite | Datos D-01 | Producción de la sección S-03 (sin cosechas) | 0 kg; sin error | Pendiente (lógica hecha) |
-| CP-REP-07 | RF-15 | Negativo | Datos D-01 | Producción de la sección S-99 | Reporte rechazado; la sección no existe | Pendiente (lógica hecha) |
-| CP-REP-08 | RF-16 | Positivo | Datos D-01 | Reporte de producción por trabajador | Ana: 70 kg; Luis: 60 kg | Pendiente (lógica hecha) |
-| CP-REP-09 | RF-16 | Límite | Datos D-01 y un trabajador sin cosechas | Producción del trabajador sin cosechas | 0 kg; sin error | Pendiente (lógica hecha) |
-| CP-REP-10 | RF-16 | Negativo | Datos D-01 | Producción del trabajador 999999999 | Reporte rechazado; el trabajador no existe | Pendiente (lógica hecha) |
-| CP-REP-11 | RF-17 | Positivo | Datos D-01 | Historial completo de aplicaciones | 3 aplicaciones, cada una con fecha, siembra, producto, cantidad y trabajador | Pendiente (lógica hecha) |
-| CP-REP-12 | RF-17 | Límite | Datos D-01 | Historial de la siembra SI-002 | 1 aplicación (AP-003) | Pendiente (lógica hecha) |
-| CP-REP-13 | RF-17 | Límite | Datos D-01 | Historial de la siembra SI-003 (sin aplicaciones) | Lista vacía; sin error | Pendiente (lógica hecha) |
-| CP-REP-14 | RF-17 | Negativo | Datos D-01 | Historial de la siembra SI-999 | Reporte rechazado; la siembra no existe | Pendiente (lógica hecha) |
-| CP-REP-15 | RF-18 | Positivo | Datos D-01 | Rendimiento de SI-001, SI-002 y SI-003 | SI-001: 0.20; SI-002: 0.15; SI-003: 0.30 (kg por sustrato) | Pendiente (lógica hecha) |
-| CP-REP-16 | RF-18 | Límite | Siembra con 1 sustrato y cosecha de 0.5 kg | Rendimiento de esa siembra | 0.50 kg por sustrato | Pendiente (lógica hecha) |
-| CP-REP-17 | RF-18 | Negativo | Siembra SI-004 sin cosecha | Rendimiento de SI-004 | Mensaje de rendimiento no disponible por falta de cosecha | Pendiente (lógica hecha) |
-| CP-REP-18 | RF-18 | Negativo | Datos D-01 | Rendimiento de la siembra SI-999 | Reporte rechazado; la siembra no existe | Pendiente (lógica hecha) |
+| CP-REP-01 | RF-14 | Positivo | Datos D-01 | Período del 2026-09-01 al 2026-09-30 | Producción total: 100 kg | Aprobado (ReporteServiceTest) |
+| CP-REP-02 | RF-14 | Límite | Datos D-01 | Período del 2026-09-10 al 2026-09-25 (fechas de cosecha en los extremos) | Producción total: 100 kg (se incluyen ambos extremos) | Aprobado (ReporteServiceTest) |
+| CP-REP-03 | RF-14 | Límite | Datos D-01 | Período del 2026-09-11 al 2026-09-24 | Producción total: 0 kg; sin error | Aprobado (ReporteServiceTest) |
+| CP-REP-04 | RF-14 | Negativo | Datos D-01 | Fecha de inicio 2026-09-30 y fecha de fin 2026-09-01 | Reporte rechazado; la fecha de inicio es posterior a la de fin | Aprobado (ReporteServiceTest) |
+| CP-REP-05 | RF-15 | Positivo | Datos D-01 | Reporte de producción por sección | S-01: 100 kg; S-02: 30 kg | Aprobado (ReporteServiceTest) |
+| CP-REP-06 | RF-15 | Límite | Datos D-01 | Producción de la sección S-03 (sin cosechas) | 0 kg; sin error | Aprobado (ReporteServiceTest) |
+| CP-REP-07 | RF-15 | Negativo | Datos D-01 | Producción de la sección S-99 | Reporte rechazado; la sección no existe | Aprobado (ReporteServiceTest) |
+| CP-REP-08 | RF-16 | Positivo | Datos D-01 | Reporte de producción por trabajador | Ana: 70 kg; Luis: 60 kg | Aprobado (ReporteServiceTest) |
+| CP-REP-09 | RF-16 | Límite | Datos D-01 y un trabajador sin cosechas | Producción del trabajador sin cosechas | 0 kg; sin error | Aprobado (ReporteServiceTest) |
+| CP-REP-10 | RF-16 | Negativo | Datos D-01 | Producción del trabajador 999999999 | Reporte rechazado; el trabajador no existe | Aprobado (ReporteServiceTest) |
+| CP-REP-11 | RF-17 | Positivo | Datos D-01 | Historial completo de aplicaciones | 3 aplicaciones, cada una con fecha, siembra, producto, cantidad y trabajador | Aprobado (ReporteServiceTest) |
+| CP-REP-12 | RF-17 | Límite | Datos D-01 | Historial de la siembra SI-002 | 1 aplicación (AP-003) | Aprobado (ReporteServiceTest) |
+| CP-REP-13 | RF-17 | Límite | Datos D-01 | Historial de la siembra SI-003 (sin aplicaciones) | Lista vacía; sin error | Aprobado (ReporteServiceTest) |
+| CP-REP-14 | RF-17 | Negativo | Datos D-01 | Historial de la siembra SI-999 | Reporte rechazado; la siembra no existe | Aprobado (ReporteServiceTest) |
+| CP-REP-15 | RF-18 | Positivo | Datos D-01 | Rendimiento de SI-001, SI-002 y SI-003 | SI-001: 0.20; SI-002: 0.15; SI-003: 0.30 (kg por sustrato) | Aprobado (ReporteServiceTest) |
+| CP-REP-16 | RF-18 | Límite | Siembra con 1 sustrato y cosecha de 0.5 kg | Rendimiento de esa siembra | 0.50 kg por sustrato | Aprobado (ReporteServiceTest) |
+| CP-REP-17 | RF-18 | Negativo | Siembra SI-004 sin cosecha | Rendimiento de SI-004 | Mensaje de rendimiento no disponible por falta de cosecha | Aprobado (ReporteServiceTest) |
+| CP-REP-18 | RF-18 | Negativo | Datos D-01 | Rendimiento de la siembra SI-999 | Reporte rechazado; la siembra no existe | Aprobado (ReporteServiceTest) |
 
 ### 4.8 No funcionales y restricciones (13)
 
@@ -365,40 +365,40 @@ Relaciona cada requerimiento, regla de negocio y restricción con los casos que 
 | RF-04 | Registrar trabajadores | CP-PER-01, CP-PER-02, CP-PER-03, CP-PER-04, CP-PER-05 | 1 / 3 / 1 | Cubierto | Sí |
 | RF-05 | Consultar trabajadores | CP-PER-09, CP-PER-10, CP-PER-11 | 1 / 1 / 1 | Cubierto | Sí |
 | RF-06 | Actualizar trabajadores | CP-PER-12, CP-PER-13, CP-PER-14, CP-PER-15 | 1 / 2 / 1 | Cubierto | Sí |
-| RF-07 | Registrar siembras | CP-SIE-01, CP-SIE-02, CP-SIE-03, CP-SIE-04, CP-SIE-16, CP-SIE-18, CP-SIE-20, CP-SIE-21 | 2 / 5 / 1 | Cubierto | No |
+| RF-07 | Registrar siembras | CP-SIE-01, CP-SIE-02, CP-SIE-03, CP-SIE-04, CP-SIE-16, CP-SIE-18, CP-SIE-20, CP-SIE-21 | 2 / 5 / 1 | Cubierto | Sí |
 | RF-08 | Registrar productos | CP-PRO-01, CP-PRO-02, CP-PRO-04, CP-PRO-05 | 1 / 2 / 1 | Cubierto | Sí |
 | RF-09 | Modificar productos | CP-PRO-06, CP-PRO-07, CP-PRO-08 | 1 / 1 / 1 | Cubierto | Sí |
 | RF-10 | Consultar productos | CP-PRO-09, CP-PRO-10, CP-PRO-11 | 1 / 1 / 1 | Cubierto | Sí |
 | RF-11 | Eliminar productos nunca utilizados | CP-PRO-12, CP-PRO-15, CP-PRO-16 | 1 / 1 / 1 | Cubierto | Sí |
-| RF-12 | Registrar aplicaciones | CP-APL-01, CP-APL-03, CP-APL-11, CP-APL-12, CP-APL-13 | 1 / 3 / 1 | Cubierto | No |
-| RF-13 | Registrar cosechas | CP-COS-01, CP-COS-12, CP-COS-13, CP-COS-14, CP-COS-15 | 1 / 3 / 1 | Cubierto | No |
-| RF-14 | Reporte de producción total por período | CP-REP-01, CP-REP-02, CP-REP-03, CP-REP-04 | 1 / 1 / 2 | Cubierto | No |
-| RF-15 | Reporte de producción por sección | CP-REP-05, CP-REP-06, CP-REP-07 | 1 / 1 / 1 | Cubierto | No |
-| RF-16 | Reporte de producción por trabajador | CP-REP-08, CP-REP-09, CP-REP-10 | 1 / 1 / 1 | Cubierto | No |
-| RF-17 | Historial de aplicaciones | CP-REP-11, CP-REP-12, CP-REP-13, CP-REP-14 | 1 / 1 / 2 | Cubierto | No |
-| RF-18 | Reporte de rendimiento de cultivos | CP-REP-15, CP-REP-16, CP-REP-17, CP-REP-18 | 1 / 2 / 1 | Cubierto | No |
+| RF-12 | Registrar aplicaciones | CP-APL-01, CP-APL-03, CP-APL-11, CP-APL-12, CP-APL-13 | 1 / 3 / 1 | Cubierto | Sí |
+| RF-13 | Registrar cosechas | CP-COS-01, CP-COS-12, CP-COS-13, CP-COS-14, CP-COS-15 | 1 / 3 / 1 | Cubierto | Sí |
+| RF-14 | Reporte de producción total por período | CP-REP-01, CP-REP-02, CP-REP-03, CP-REP-04 | 1 / 1 / 2 | Cubierto | Sí |
+| RF-15 | Reporte de producción por sección | CP-REP-05, CP-REP-06, CP-REP-07 | 1 / 1 / 1 | Cubierto | Sí |
+| RF-16 | Reporte de producción por trabajador | CP-REP-08, CP-REP-09, CP-REP-10 | 1 / 1 / 1 | Cubierto | Sí |
+| RF-17 | Historial de aplicaciones | CP-REP-11, CP-REP-12, CP-REP-13, CP-REP-14 | 1 / 1 / 2 | Cubierto | Sí |
+| RF-18 | Reporte de rendimiento de cultivos | CP-REP-15, CP-REP-16, CP-REP-17, CP-REP-18 | 1 / 2 / 1 | Cubierto | Sí |
 | RNF-01 | Información centralizada | CP-NFR-01, CP-NFR-02 | 2 / 0 / 0 | Cubierto | No |
 | RNF-02 | Integridad de datos | CP-SEC-06, CP-PER-02, CP-SIE-21, CP-PRO-04, CP-APL-13, CP-NFR-03, CP-NFR-04, CP-NFR-05 | 1 / 6 / 1 | Cubierto | No |
 | RNF-03 | Mensajes de error claros | CP-NFR-06, CP-NFR-07 | 1 / 1 / 0 | Cubierto | No |
 | RNF-04 | Reportes en 3 segundos o menos | CP-NFR-08, CP-NFR-09 | 1 / 0 / 1 | Cubierto | No |
 | RN-01 | No pueden existir dos secciones con el mismo código. | CP-SEC-01, CP-SEC-07, CP-SEC-08, CP-SEC-09, CP-SEC-14 | 2 / 2 / 1 | Cubierto | Sí |
 | RN-02 | No pueden existir dos trabajadores con la misma identificación. | CP-PER-01, CP-PER-06, CP-PER-07, CP-PER-08, CP-PER-14 | 2 / 2 / 1 | Cubierto | Sí |
-| RN-03 | Solo pueden utilizarse secciones en estado Disponible. | CP-SIE-01, CP-SIE-03, CP-SIE-14 | 2 / 1 / 0 | Cubierto | No |
-| RN-04 | No puede registrarse una siembra con fecha futura. | CP-SIE-01, CP-SIE-05, CP-SIE-06, CP-SIE-07, CP-SIE-08 | 2 / 1 / 2 | Cubierto | No |
+| RN-03 | Solo pueden utilizarse secciones en estado Disponible. | CP-SIE-01, CP-SIE-03, CP-SIE-14 | 2 / 1 / 0 | Cubierto | Sí |
+| RN-04 | No puede registrarse una siembra con fecha futura. | CP-SIE-01, CP-SIE-05, CP-SIE-06, CP-SIE-07, CP-SIE-08 | 2 / 1 / 2 | Cubierto | Sí |
 | RN-05 | La cantidad de sustratos debe ser mayor que cero. | CP-SIE-01, CP-SIE-09, CP-SIE-10, CP-SIE-11, CP-SIE-12 | 1 / 2 / 2 | Cubierto | No |
-| RN-06 | Una sección ocupada no puede recibir otra siembra simultánea. | CP-SIE-02, CP-SIE-13, CP-SIE-14, CP-SIE-15 | 2 / 1 / 1 | Cubierto | No |
+| RN-06 | Una sección ocupada no puede recibir otra siembra simultánea. | CP-SIE-02, CP-SIE-13, CP-SIE-14, CP-SIE-15 | 2 / 1 / 1 | Cubierto | Sí |
 | RN-07 | Solo pueden eliminarse productos que nunca hayan sido utilizados. | CP-PRO-12, CP-PRO-13, CP-PRO-14 | 1 / 1 / 1 | Cubierto | Sí |
-| RN-08 | La siembra asociada a la aplicación debe existir. | CP-APL-01, CP-APL-02, CP-APL-03 | 1 / 1 / 1 | Cubierto | No |
-| RN-09 | El producto aplicado debe existir. | CP-APL-01, CP-APL-04, CP-APL-05 | 1 / 1 / 1 | Cubierto | No |
-| RN-10 | La cantidad aplicada debe ser mayor a cero. | CP-APL-01, CP-APL-06, CP-APL-07, CP-APL-08 | 1 / 1 / 2 | Cubierto | No |
-| RN-11 | No pueden registrarse aplicaciones para cultivos ya cosechados. | CP-APL-01, CP-APL-09, CP-APL-10 | 1 / 1 / 1 | Cubierto | No |
-| RN-12 | Una siembra solo puede cosecharse una vez. | CP-COS-01, CP-COS-03, CP-COS-04 | 1 / 1 / 1 | Cubierto | No |
-| RN-13 | El peso cosechado debe ser mayor a cero. | CP-COS-01, CP-COS-05, CP-COS-06, CP-COS-07 | 1 / 1 / 2 | Cubierto | No |
-| RN-14 | La fecha de cosecha debe ser posterior a la fecha de siembra (ver S-10). | CP-COS-01, CP-COS-08, CP-COS-09, CP-COS-10 | 1 / 1 / 2 | Cubierto | No |
-| RN-15 | Al registrar una cosecha, la sección vuelve al estado Disponible. | CP-SIE-14, CP-COS-02, CP-COS-16, CP-COS-17 | 2 / 1 / 1 | Cubierto | No |
-| RN-16 | El responsable de una siembra, aplicación o cosecha debe ser un trabajador registrado. | CP-SIE-01, CP-SIE-16, CP-SIE-17, CP-APL-01, CP-APL-11, CP-COS-01, CP-COS-14 | 3 / 3 / 1 | Cubierto | No |
-| RN-17 | Los códigos de siembra, producto, aplicación y cosecha no pueden repetirse dentro de su propio registro. | CP-SIE-18, CP-SIE-19, CP-PRO-01, CP-PRO-02, CP-PRO-03, CP-APL-12, CP-COS-15 | 2 / 4 / 1 | Cubierto | No |
-| RN-18 | La siembra asociada a la cosecha debe existir. | CP-COS-01, CP-COS-08, CP-COS-11 | 1 / 1 / 1 | Cubierto | No |
+| RN-08 | La siembra asociada a la aplicación debe existir. | CP-APL-01, CP-APL-02, CP-APL-03 | 1 / 1 / 1 | Cubierto | Sí |
+| RN-09 | El producto aplicado debe existir. | CP-APL-01, CP-APL-04, CP-APL-05 | 1 / 1 / 1 | Cubierto | Sí |
+| RN-10 | La cantidad aplicada debe ser mayor a cero. | CP-APL-01, CP-APL-06, CP-APL-07, CP-APL-08 | 1 / 1 / 2 | Cubierto | Sí |
+| RN-11 | No pueden registrarse aplicaciones para cultivos ya cosechados. | CP-APL-01, CP-APL-09, CP-APL-10 | 1 / 1 / 1 | Cubierto | Sí |
+| RN-12 | Una siembra solo puede cosecharse una vez. | CP-COS-01, CP-COS-03, CP-COS-04 | 1 / 1 / 1 | Cubierto | Sí |
+| RN-13 | El peso cosechado debe ser mayor a cero. | CP-COS-01, CP-COS-05, CP-COS-06, CP-COS-07 | 1 / 1 / 2 | Cubierto | Sí |
+| RN-14 | La fecha de cosecha debe ser posterior a la fecha de siembra (ver S-10). | CP-COS-01, CP-COS-08, CP-COS-09, CP-COS-10 | 1 / 1 / 2 | Cubierto | Sí |
+| RN-15 | Al registrar una cosecha, la sección vuelve al estado Disponible. | CP-SIE-14, CP-COS-02, CP-COS-16, CP-COS-17 | 2 / 1 / 1 | Cubierto | Sí |
+| RN-16 | El responsable de una siembra, aplicación o cosecha debe ser un trabajador registrado. | CP-SIE-01, CP-SIE-16, CP-SIE-17, CP-APL-01, CP-APL-11, CP-COS-01, CP-COS-14 | 3 / 3 / 1 | Cubierto | Sí |
+| RN-17 | Los códigos de siembra, producto, aplicación y cosecha no pueden repetirse dentro de su propio registro. | CP-SIE-18, CP-SIE-19, CP-PRO-01, CP-PRO-02, CP-PRO-03, CP-APL-12, CP-COS-15 | 2 / 4 / 1 | Cubierto | Sí |
+| RN-18 | La siembra asociada a la cosecha debe existir. | CP-COS-01, CP-COS-08, CP-COS-11 | 1 / 1 / 1 | Cubierto | Sí |
 | RES-01 | Estados válidos de sección | CP-SEC-01, CP-SEC-10, CP-SEC-11 | 2 / 1 / 0 | Cubierto | Sí |
 | RES-02 | Pruebas con AAA y TDD | CP-NFR-10, CP-NFR-11, CP-NFR-12 | 2 / 1 / 0 | Cubierto | No |
 | RES-03 | Repositorio Git | CP-NFR-13 | 1 / 0 / 0 | Cubierto | No |
@@ -407,7 +407,7 @@ Relaciona cada requerimiento, regla de negocio y restricción con los casos que 
 
 ## 6. Estado de avance (Fase 4)
 
-Registro de lo construido. Se distingue **probado** (caso con prueba unitaria en verde) de **lógica hecha** (código de producción escrito, todavía sin prueba, por lo que su comportamiento no está verificado).
+Registro de lo construido. Un caso está **aprobado** cuando tiene prueba unitaria en verde; un elemento de la matriz está **probado** cuando todos sus casos están aprobados.
 
 Última actualización: 2026-10-22.
 
@@ -418,18 +418,20 @@ Registro de lo construido. Se distingue **probado** (caso con prueba unitaria en
 | Secciones (SEC) | 18 | Hecha (`SeccionService`) | 18 de 18 aprobadas | `SeccionServiceTest` | feature/seccion |
 | Personal (PER) | 15 | Hecha (`TrabajadorService`) | 15 de 15 aprobadas | `TrabajadorServiceTest` | feature/personal |
 | Productos (PRO) | 16 | Hecha (`ProductoService`) | 16 de 16 aprobadas | `ProductoServiceTest` | feature/producto |
-| Siembras (SIE) | 21 | Hecha (`SiembraService`) | Pendiente | — | — |
-| Aplicaciones (APL) | 13 | Hecha (`AplicacionService`) | Pendiente | — | — |
-| Cosechas (COS) | 17 | Hecha (`CosechaService`) | Pendiente | — | — |
-| Reportes (REP) | 18 | Hecha (`ReporteService`) | Pendiente | — | — |
+| Siembras (SIE) | 21 | Hecha (`SiembraService`) | 20 de 21 aprobadas (falta CP-SIE-12) | `SiembraServiceTest` | main |
+| Aplicaciones (APL) | 13 | Hecha (`AplicacionService`) | 13 de 13 aprobadas | `AplicacionServiceTest` | main |
+| Cosechas (COS) | 17 | Hecha (`CosechaService`) | 17 de 17 aprobadas | `CosechaServiceTest` | main |
+| Reportes (REP) | 18 | Hecha (`ReporteService`) | 18 de 18 aprobadas | `ReporteServiceTest` | main |
 | No funcionales (NFR-01 a 07) | 7 | Parcial | Pendiente | — | — |
 | NFR-08 a 13 | 6 | No aplica (no son pruebas unitarias) | Verificación manual | — | — |
 
-Casos con prueba aprobada: **49 de 131**. Las 50 pruebas en verde de `./mvnw test` incluyen la de arranque de Spring (`OstraVerdeQaApplicationTests`).
+Casos con prueba aprobada: **117 de 131**. Los 14 restantes son CP-SIE-12, CP-NFR-01 a CP-NFR-07 y los 6 casos de verificación manual (CP-NFR-08 a CP-NFR-13). `./mvnw test` ejecuta 118 pruebas, todas en verde; la que no es un caso del catálogo es la de arranque de Spring (`OstraVerdeQaApplicationTests`).
 
-### 6.2 Lógica construida sin prueba
+Elementos de la matriz probados: **36 de 43**. Faltan RNF-01 a RNF-04, RN-05 (por CP-SIE-12), RES-02 y RES-03.
 
-Repositorios en memoria agregados (S-16): `SiembraRepositoryImpl`, `AplicacionRepositoryImpl` y `CosechaRepositoryImpl`.
+### 6.2 Lógica de Siembras, Aplicaciones, Cosechas y Reportes
+
+Repositorios en memoria (S-16): `SiembraRepositoryImpl`, `AplicacionRepositoryImpl` y `CosechaRepositoryImpl`. Los servicios comparten las validaciones de la clase `Validaciones` (interna del paquete `Service`).
 
 | Servicio | Reglas implementadas |
 | --- | --- |
@@ -438,14 +440,26 @@ Repositorios en memoria agregados (S-16): `SiembraRepositoryImpl`, `AplicacionRe
 | `CosechaService` | RF-13, RN-12, RN-13, RN-14, RN-15, RN-16, RN-17, RN-18 (la sección vuelve a Disponible) |
 | `ReporteService` | RF-14 a RF-18, S-11, S-12 |
 
-### 6.3 Pendiente
+### 6.3 Evidencia TDD de Siembras, Aplicaciones, Cosechas y Reportes
 
-- Escribir las pruebas (AAA) de Siembras, Aplicaciones, Cosechas, Reportes y los NFR-01 a NFR-07. Como la lógica ya existe, estas pruebas no pasarán por una fase Red real; hay que decidir cómo documentar la evidencia TDD (RES-02).
-- Volver a ejecutar las pruebas de eliminación de productos (RN-07) con la implementación real de `AplicacionRepository`, porque hoy usan un mock.
-- **CP-SIE-12 (sustratos 2.5):** `Siembra.cantidadSustratos` es `int`, por lo que no se puede probar a nivel de servicio. Falta decidir entre dejarlo sin prueba o cambiar el campo a `double`.
+La lógica de estos cuatro módulos se escribió antes que sus pruebas (commit `6823d3c`). Para poder evidenciar el ciclo Red, Green y Refactor, se vació la lógica de los servicios y se repitió el ciclo completo:
+
+| Fase | Commit | Qué contiene | Resultado de `./mvnw test` |
+| --- | --- | --- | --- |
+| Esqueletos | `b077a2c` | Servicios con las firmas y sin lógica | 50 pruebas en verde (aún sin pruebas nuevas) |
+| Red | `47271b8` | 68 pruebas nuevas (AAA) y valores centinela en `ReporteService` | 118 pruebas, 68 fallos, 0 errores |
+| Green | `e2675cb` | Lógica restaurada tal como estaba en `6823d3c` | 118 pruebas, 0 fallos |
+| Refactor | `36bf77d` | Clase `Validaciones` y separación de `buscarSeccion` y `validarDisponible` | 118 pruebas, 0 fallos |
+
+Los valores centinela de `ReporteService` (los métodos numéricos devuelven `-1` y `historialAplicacionesDeSiembra` no filtra) existen solo para que CP-REP-03, 06, 09 y 13, que esperan cero o lista vacía, no pasen sin lógica.
+
+### 6.4 Pendiente
+
+- **CP-NFR-01 a CP-NFR-07:** sin prueba todavía. Reutilizan los servicios ya probados.
+- **CP-SIE-12 (sustratos 2.5):** `Siembra.cantidadSustratos` es `int`, por lo que no se puede probar a nivel de servicio. Falta decidir entre dejarlo sin prueba y documentarlo, o cambiar el campo a `double`.
 - **CP-NFR-02:** `Siembra` solo guarda el código de la sección, no su nombre. Falta definir cómo se expone el nombre al consultar una siembra.
 - **CP-NFR-07:** no hay lógica que simule una falla de base de datos, porque los datos viven en memoria (S-16).
-- Los mensajes de error de los servicios nuevos aún no se han contrastado con las palabras clave que usarán las pruebas.
+- Volver a ejecutar las pruebas de eliminación de productos (RN-07) con la implementación real de `AplicacionRepository`, porque hoy usan un mock.
 - Por S-08 todos los campos son obligatorios salvo observaciones y descripción, pero el catálogo solo tiene un caso de campo vacío en Personal (CP-PER-02) y otro en Productos (CP-PRO-04). Los demás campos vacíos no tienen caso de prueba.
 - RES-02 y RES-03 se verifican al cierre del proyecto (historial de commits, estructura AAA y matriz final).
 
@@ -465,6 +479,8 @@ Repositorios en memoria agregados (S-16): `SiembraRepositoryImpl`, `AplicacionRe
 - `AplicacionService` no valida que la fecha no sea futura, porque el enunciado no lo pide para aplicaciones; `CosechaService` tampoco, solo exige que sea posterior a la siembra.
 - Los reportes por sección y por trabajador devuelven un `Map` ordenado por código, e incluyen con 0 kg a las secciones y trabajadores sin cosechas (CP-REP-06, CP-REP-09).
 - El rendimiento de una siembra sin cosecha lanza `ReglaNegocioException` con el mensaje de rendimiento no disponible (CP-REP-17).
+- Las pruebas de Siembras, Aplicaciones, Cosechas y Reportes preparan sus precondiciones directamente con los repositorios, no con otros servicios, para que cada prueba falle solo por la regla que valida.
+- `Validaciones` (interna del paquete `Service`) concentra la comprobación de texto vacío y la de responsable registrado (RN-16) que usan los servicios de Siembras, Aplicaciones y Cosechas. `SeccionService`, `TrabajadorService` y `ProductoService` conservan sus propias comprobaciones.
 
 ---
 

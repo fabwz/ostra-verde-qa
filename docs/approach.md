@@ -127,7 +127,7 @@ Fases 1 a 3 ya están en el Word. Este PDF debe cubrir también 4, 5 y 6.
 
 Evidencia de TDD: commits separados de Red, Green y Refactor en el repositorio Git.
 
-Avance actual: 49 de 131 casos con prueba aprobada (Secciones, Personal y Productos). La lógica de Siembras, Aplicaciones, Cosechas y Reportes ya existe, pero sin pruebas. El detalle está en la sección 6 de `testing.md`.
+Avance actual: 117 de 131 casos con prueba aprobada (Secciones, Personal, Productos, Siembras, Aplicaciones, Cosechas y Reportes). Faltan CP-SIE-12, CP-NFR-01 a CP-NFR-07 y los 6 casos de verificación manual (CP-NFR-08 a CP-NFR-13). La evidencia Red, Green y Refactor de los últimos cuatro módulos está en la sección 6.3 de `testing.md`, con los commits correspondientes.
 
 ### Fase 5: Bitácora
 
