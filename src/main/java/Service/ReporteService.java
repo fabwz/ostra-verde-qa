@@ -4,8 +4,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 
+import Exception.ReglaNegocioException;
 import Model.Aplicacion;
+import Model.Cosecha;
+import Model.Seccion;
+import Model.Siembra;
+import Model.Trabajador;
 import Repository.AplicacionRepository;
 import Repository.CosechaRepository;
 import Repository.SeccionRepository;
@@ -33,42 +39,90 @@ public class ReporteService {
 
 	/** Suma los kg cosechados entre dos fechas, ambas incluidas (RF-14, S-12). */
 	public double produccionTotalPorPeriodo(LocalDate inicio, LocalDate fin) {
-		return -1;
+		if (inicio.isAfter(fin)) {
+			throw new ReglaNegocioException("La fecha de inicio no puede ser posterior a la fecha de fin");
+		}
+		return cosechaRepository.listarTodas().stream()
+				.filter(cosecha -> !cosecha.getFecha().isBefore(inicio) && !cosecha.getFecha().isAfter(fin))
+				.mapToDouble(Cosecha::getPesoKg)
+				.sum();
 	}
 
 	/** Devuelve los kg cosechados por cada sección registrada (RF-15). */
 	public Map<String, Double> produccionPorSeccion() {
-		return new TreeMap<>();
+		Map<String, Double> reporte = new TreeMap<>();
+		for (Seccion seccion : seccionRepository.listarTodas()) {
+			reporte.put(seccion.getCodigo(), produccionDeSeccion(seccion.getCodigo()));
+		}
+		return reporte;
 	}
 
 	/** Devuelve los kg cosechados en una sección (RF-15). */
 	public double produccionDeSeccion(String codigoSeccion) {
-		return -1;
+		if (seccionRepository.buscarPorCodigo(codigoSeccion).isEmpty()) {
+			throw new ReglaNegocioException("La sección no existe");
+		}
+		return sumarPeso(cosecha -> seccionDeCosecha(cosecha).equals(codigoSeccion));
 	}
 
 	/** Devuelve los kg cosechados por cada trabajador registrado (RF-16). */
 	public Map<String, Double> produccionPorTrabajador() {
-		return new TreeMap<>();
+		Map<String, Double> reporte = new TreeMap<>();
+		for (Trabajador trabajador : trabajadorRepository.listarTodos()) {
+			reporte.put(trabajador.getIdentificacion(), produccionDeTrabajador(trabajador.getIdentificacion()));
+		}
+		return reporte;
 	}
 
 	/** Devuelve los kg cosechados por un trabajador (RF-16). */
 	public double produccionDeTrabajador(String identificacion) {
-		return -1;
+		if (trabajadorRepository.buscarPorIdentificacion(identificacion).isEmpty()) {
+			throw new ReglaNegocioException("El trabajador no existe");
+		}
+		return sumarPeso(cosecha -> cosecha.getIdentificacionResponsable().equals(identificacion));
 	}
 
 	/** Devuelve el historial completo de aplicaciones (RF-17). */
 	public List<Aplicacion> historialAplicaciones() {
-		return List.of();
+		return aplicacionRepository.listarTodas();
 	}
 
 	/** Devuelve el historial de aplicaciones de una siembra (RF-17). */
 	public List<Aplicacion> historialAplicacionesDeSiembra(String codigoSiembra) {
-		return aplicacionRepository.listarTodas();
+		validarSiembraExiste(codigoSiembra);
+		return aplicacionRepository.listarTodas().stream()
+				.filter(aplicacion -> aplicacion.getCodigoSiembra().equals(codigoSiembra))
+				.toList();
 	}
 
 	/** Calcula el rendimiento de una siembra en kg por sustrato (RF-18, S-11). */
 	public double rendimiento(String codigoSiembra) {
-		return -1;
+		Siembra siembra = validarSiembraExiste(codigoSiembra);
+		Cosecha cosecha = cosechaRepository.buscarPorSiembra(codigoSiembra)
+				.orElseThrow(() -> new ReglaNegocioException(
+						"Rendimiento no disponible: la siembra no tiene cosecha"));
+		return cosecha.getPesoKg() / siembra.getCantidadSustratos();
+	}
+
+	// Suma el peso de las cosechas que cumplen el filtro dado.
+	private double sumarPeso(Predicate<Cosecha> filtro) {
+		return cosechaRepository.listarTodas().stream()
+				.filter(filtro)
+				.mapToDouble(Cosecha::getPesoKg)
+				.sum();
+	}
+
+	// Obtiene el código de la sección donde se sembró lo cosechado (RF-15).
+	private String seccionDeCosecha(Cosecha cosecha) {
+		return siembraRepository.buscarPorCodigo(cosecha.getCodigoSiembra())
+				.map(Siembra::getCodigoSeccion)
+				.orElse("");
+	}
+
+	// Exige que la siembra exista y la devuelve (RF-17, RF-18).
+	private Siembra validarSiembraExiste(String codigoSiembra) {
+		return siembraRepository.buscarPorCodigo(codigoSiembra)
+				.orElseThrow(() -> new ReglaNegocioException("La siembra no existe"));
 	}
 
 }
