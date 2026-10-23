@@ -211,6 +211,86 @@ class ProductoServiceTest {
 		assertTrue(productos.isEmpty());
 	}
 
+	@Test
+	@DisplayName("CP-PRO-12 eliminar producto sin aplicaciones")
+	void eliminarProductoSinAplicaciones() {
+		// Arrange
+		productoService.registrar(new Producto("PR-01", "Cal agrícola", "Desinfectante",
+				"Desinfección de sustrato", "kg"));
+		productoService.registrar(new Producto("PR-02", "Fungicida", "Fungicida", "", "litro"));
+		Mockito.when(aplicacionRepository.existeConProducto("PR-02")).thenReturn(false);
+
+		// Act
+		productoService.eliminar("PR-02");
+
+		// Assert
+		assertTrue(productoRepository.buscarPorCodigo("PR-02").isEmpty());
+		assertTrue(productoService.consultarTodos().stream()
+				.noneMatch(producto -> producto.getCodigo().equals("PR-02")));
+	}
+
+	@Test
+	@DisplayName("CP-PRO-13 rechazar eliminación de producto con 3 aplicaciones")
+	void rechazarEliminacionDeProductoConTresAplicaciones() {
+		// Arrange
+		productoService.registrar(new Producto("PR-01", "Cal agrícola", "Desinfectante",
+				"Desinfección de sustrato", "kg"));
+		Mockito.when(aplicacionRepository.existeConProducto("PR-01")).thenReturn(true);
+
+		// Act
+		ReglaNegocioException excepcion = assertThrows(ReglaNegocioException.class,
+				() -> productoService.eliminar("PR-01"));
+
+		// Assert
+		assertTrue(excepcion.getMessage().contains("utilizado"));
+		verificarGuardado("PR-01", "Cal agrícola", "Desinfectante", "Desinfección de sustrato", "kg");
+	}
+
+	@Test
+	@DisplayName("CP-PRO-14 rechazar eliminación de producto con una sola aplicación")
+	void rechazarEliminacionDeProductoConUnaAplicacion() {
+		// Arrange
+		productoService.registrar(new Producto("PR-01", "Cal agrícola", "Desinfectante",
+				"Desinfección de sustrato", "kg"));
+		Mockito.when(aplicacionRepository.existeConProducto("PR-01")).thenReturn(true);
+
+		// Act
+		ReglaNegocioException excepcion = assertThrows(ReglaNegocioException.class,
+				() -> productoService.eliminar("PR-01"));
+
+		// Assert
+		assertTrue(excepcion.getMessage().contains("utilizado"));
+		assertTrue(productoRepository.buscarPorCodigo("PR-01").isPresent());
+	}
+
+	@Test
+	@DisplayName("CP-PRO-15 rechazar eliminación de producto inexistente")
+	void rechazarEliminacionDeProductoInexistente() {
+		// Arrange
+		String codigo = "PR-99";
+
+		// Act
+		ReglaNegocioException excepcion = assertThrows(ReglaNegocioException.class,
+				() -> productoService.eliminar(codigo));
+
+		// Assert
+		assertTrue(excepcion.getMessage().contains("no existe"));
+	}
+
+	@Test
+	@DisplayName("CP-PRO-16 eliminar el único producto deja el listado vacío")
+	void eliminarUnicoProductoDejaListadoVacio() {
+		// Arrange
+		productoService.registrar(new Producto("PR-02", "Fungicida", "Fungicida", "", "litro"));
+		Mockito.when(aplicacionRepository.existeConProducto("PR-02")).thenReturn(false);
+
+		// Act
+		productoService.eliminar("PR-02");
+
+		// Assert
+		assertTrue(productoService.consultarTodos().isEmpty());
+	}
+
 	// Comprueba que el producto existe y que sus cinco campos coinciden con los esperados.
 	private void verificarGuardado(String codigo, String nombre, String tipo, String descripcion,
 			String unidadMedida) {

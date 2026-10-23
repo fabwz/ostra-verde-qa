@@ -30,6 +30,10 @@ public class ProductoService {
 		productoRepository.guardar(datosNuevos);
 	}
 
+	/** Elimina un producto que nunca ha sido utilizado (RF-11, RN-07). */
+	public void eliminar(String codigo) {
+	}
+
 	/** Consulta un producto por su código (RF-10). */
 	public Producto consultarPorCodigo(String codigo) {
 		return productoRepository.buscarPorCodigo(codigo)
