@@ -24,6 +24,15 @@ public class ProductoService {
 
 	/** Modifica los datos de un producto existente (RF-09). */
 	public void modificar(String codigo, Producto datosNuevos) {
+		validarProductoExiste(codigo);
+		productoRepository.guardar(datosNuevos);
+	}
+
+	// Rechaza la operación si no existe un producto con ese código (RF-09).
+	private void validarProductoExiste(String codigo) {
+		if (productoRepository.buscarPorCodigo(codigo).isEmpty()) {
+			throw new ReglaNegocioException("El producto no existe");
+		}
 	}
 
 	// Agrupa las validaciones del registro (RF-08, RN-17).
