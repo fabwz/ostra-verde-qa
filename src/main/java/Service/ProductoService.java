@@ -17,6 +17,7 @@ public class ProductoService {
 
 	/** Registra un producto nuevo (RF-08, RN-17). */
 	public void registrar(Producto producto) {
+		productoRepository.guardar(producto);
 	}
 
 }
