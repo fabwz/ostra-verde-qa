@@ -20,7 +20,14 @@ public class SeccionService {
 	public void registrar(Seccion seccion) {
 		validarCampos(seccion);
 		validarCodigoUnico(seccion.getCodigo());
-		seccionRepository.guardar(seccion);
+		try {
+			seccionRepository.guardar(seccion);
+		} catch (ReglaNegocioException e) {
+			throw e;
+		} catch (RuntimeException e) {
+			// Oculta el detalle técnico de la falla de almacenamiento (RNF-03).
+			throw new ReglaNegocioException("No se pudo completar la operación. Intente de nuevo más tarde.");
+		}
 	}
 
 	/** Modifica los datos de una sección existente (RF-02, RN-01). */
