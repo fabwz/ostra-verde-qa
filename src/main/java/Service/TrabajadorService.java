@@ -18,7 +18,6 @@ public class TrabajadorService {
 	/** Registra un trabajador nuevo (RF-04, RN-02). */
 	public void registrar(Trabajador trabajador) {
 		validar(trabajador);
-		validarIdentificacionUnica(trabajador.getIdentificacion());
 		trabajadorRepository.guardar(trabajador);
 	}
 
@@ -34,6 +33,7 @@ public class TrabajadorService {
 		validarTelefono(trabajador.getTelefono());
 		validarCorreo(trabajador.getCorreo());
 		validarCargo(trabajador.getCargo());
+		validarIdentificacionUnica(trabajador.getIdentificacion());
 	}
 
 	// Exige un teléfono numérico de exactamente 8 dígitos (S-04).
