@@ -1,6 +1,5 @@
 package Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import Exception.ReglaNegocioException;
@@ -33,12 +32,13 @@ public class ProductoService {
 
 	/** Consulta un producto por su código (RF-10). */
 	public Producto consultarPorCodigo(String codigo) {
-		return null;
+		return productoRepository.buscarPorCodigo(codigo)
+				.orElseThrow(() -> new ReglaNegocioException("Producto no encontrado"));
 	}
 
 	/** Consulta el listado de todos los productos (RF-10). */
 	public List<Producto> consultarTodos() {
-		return new ArrayList<>();
+		return productoRepository.listarTodos();
 	}
 
 	// Rechaza la operación si no existe un producto con ese código (RF-09).

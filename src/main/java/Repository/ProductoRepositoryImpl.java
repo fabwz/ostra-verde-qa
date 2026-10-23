@@ -25,9 +25,10 @@ public class ProductoRepositoryImpl implements ProductoRepository {
 		return Optional.ofNullable(productos.get(codigo));
 	}
 
+	/** Devuelve una copia con todos los productos guardados (RF-10). */
 	@Override
 	public List<Producto> listarTodos() {
-		return new ArrayList<>();
+		return new ArrayList<>(productos.values());
 	}
 
 	@Override
