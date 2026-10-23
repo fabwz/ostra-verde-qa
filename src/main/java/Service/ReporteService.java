@@ -33,7 +33,7 @@ public class ReporteService {
 
 	/** Suma los kg cosechados entre dos fechas, ambas incluidas (RF-14, S-12). */
 	public double produccionTotalPorPeriodo(LocalDate inicio, LocalDate fin) {
-		return 0;
+		return -1;
 	}
 
 	/** Devuelve los kg cosechados por cada sección registrada (RF-15). */
@@ -43,7 +43,7 @@ public class ReporteService {
 
 	/** Devuelve los kg cosechados en una sección (RF-15). */
 	public double produccionDeSeccion(String codigoSeccion) {
-		return 0;
+		return -1;
 	}
 
 	/** Devuelve los kg cosechados por cada trabajador registrado (RF-16). */
@@ -53,7 +53,7 @@ public class ReporteService {
 
 	/** Devuelve los kg cosechados por un trabajador (RF-16). */
 	public double produccionDeTrabajador(String identificacion) {
-		return 0;
+		return -1;
 	}
 
 	/** Devuelve el historial completo de aplicaciones (RF-17). */
@@ -63,12 +63,12 @@ public class ReporteService {
 
 	/** Devuelve el historial de aplicaciones de una siembra (RF-17). */
 	public List<Aplicacion> historialAplicacionesDeSiembra(String codigoSiembra) {
-		return List.of();
+		return aplicacionRepository.listarTodas();
 	}
 
 	/** Calcula el rendimiento de una siembra en kg por sustrato (RF-18, S-11). */
 	public double rendimiento(String codigoSiembra) {
-		return 0;
+		return -1;
 	}
 
 }
