@@ -29,16 +29,17 @@ Si hace falta algo prohibido, indicarlo y esperar la decisión de la persona.
 
 El trabajo se basa estrictamente en estos documentos de `docs/`:
 
-- `isw-622-enunciado.md`: el enunciado del proyecto (ITI-622).
-- `isw-622-proyecto-fases1-3.md`: requerimientos (RF, RNF, RN, RES), supuestos (S-##) y los 131 casos de prueba (CP-XXX-##).
+- `testing.md`: requerimientos (RF, RNF, RN, RES), supuestos (S-01 a S-16), los 131 casos de prueba (CP-XXX-##), la matriz de trazabilidad, el estado de avance, las decisiones de implementación y los servicios disponibles.
+- `approach.md`: el enunciado resumido (contexto y descripción de los siete procesos), los entregables por fase, la exposición, la rúbrica y los descuentos.
 
 Reglas:
 
-- Antes de cada funcionalidad, leer en el documento los requerimientos, reglas y casos de prueba que la cubren.
+- Antes de cada funcionalidad, leer en `testing.md` los requerimientos, reglas y casos de prueba que la cubren, y en `approach.md` la descripción del proceso.
+- `testing.md` también es el registro de avance (sección 6). Solo se actualiza cuando la persona lo pide, porque es un documento de `docs/`.
 - No agregar reglas de negocio, campos, funcionalidades ni validaciones que no estén en esos documentos.
 - Si algo no está definido o es ambiguo, preguntar antes de decidir. No inventar.
 - Cada prueba corresponde a un caso del catálogo, con los datos de entrada y el resultado esperado que allí se indican.
-- Los supuestos S-01 a S-15 forman parte de la especificación. Se agrega el supuesto S-16: los datos se guardan en memoria, sin base de datos.
+- Los supuestos S-01 a S-16 forman parte de la especificación. S-16: los datos se guardan en memoria, sin base de datos.
 
 ## Stack y estructura
 
