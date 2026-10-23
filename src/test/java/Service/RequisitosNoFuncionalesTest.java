@@ -13,6 +13,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 
 import Exception.ReglaNegocioException;
 import Model.Aplicacion;
@@ -175,7 +177,27 @@ class RequisitosNoFuncionalesTest {
 	}
 
 	@Test
-	@DisplayName("CP-NFR-09 reporte de producción anual con 1000 cosechas en 3 segundos o menos")
+	@DisplayName("CP-NFR-07 falla del repositorio muestra un mensaje genérico sin detalles técnicos")
+	void fallaDelRepositorioMuestraMensajeGenerico() {
+		// Arrange
+		SeccionRepository repositorioConFalla = Mockito.mock(SeccionRepository.class);
+		Mockito.doThrow(new RuntimeException("Fallo de conexión: timeout"))
+				.when(repositorioConFalla).guardar(ArgumentMatchers.any(Seccion.class));
+		SeccionService servicioConFalla = new SeccionService(repositorioConFalla);
+		Seccion seccion = new Seccion("S-01", "Sala Norte", 500, EstadoSeccion.DISPONIBLE);
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> servicioConFalla.registrar(seccion));
+
+		// Assert
+		assertFalse(error.getMessage().contains("timeout"));
+		assertFalse(error.getMessage().contains("conexión"));
+		assertFalse(error.getMessage().contains("Exception"));
+	}
+
+	@Test
+	@DisplayName("CP-NFR-09reporte de producción anual con 1000 cosechas en 3 segundos o menos")
 	void reporteAnualConMilCosechasEnTresSegundosOMenos() {
 		// Arrange
 		for (int i = 1; i <= 1000; i++) {
