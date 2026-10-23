@@ -18,9 +18,14 @@ public class ProductoService {
 
 	/** Registra un producto nuevo (RF-08, RN-17). */
 	public void registrar(Producto producto) {
+		validar(producto);
+		productoRepository.guardar(producto);
+	}
+
+	// Agrupa las validaciones del registro (RF-08, RN-17).
+	private void validar(Producto producto) {
 		validarUnidadMedida(producto.getUnidadMedida());
 		validarCodigoUnico(producto.getCodigo());
-		productoRepository.guardar(producto);
 	}
 
 	// Rechaza la operación si ya existe un producto con ese código (RN-17).
