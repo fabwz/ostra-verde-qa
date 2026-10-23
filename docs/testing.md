@@ -219,7 +219,7 @@ Columnas: ID del caso, requerimientos que valida, tipo, precondición, datos de 
 | CP-SIE-09 | RN-05 | Límite | — | Sustratos 1; resto de datos válidos | Siembra guardada (valor mínimo válido) | Aprobado (SiembraServiceTest) |
 | CP-SIE-10 | RN-05 | Límite | — | Sustratos 0; resto de datos válidos | Registro rechazado; los sustratos deben ser mayores que cero | Aprobado (SiembraServiceTest) |
 | CP-SIE-11 | RN-05 | Negativo | — | Sustratos -5; resto de datos válidos | Registro rechazado; los sustratos deben ser mayores que cero | Aprobado (SiembraServiceTest) |
-| CP-SIE-12 | RN-05 | Negativo | — | Sustratos 2.5; resto de datos válidos | Registro rechazado; los sustratos deben ser un número entero | Pendiente (sin prueba: el campo es int) |
+| CP-SIE-12 | RN-05 | Negativo | — | Sustratos 2.5; resto de datos válidos | Registro rechazado; los sustratos deben ser un número entero | No aplica a nivel de servicio (el tipo int impide el valor; ver sección 7) |
 | CP-SIE-13 | RN-06 | Negativo | S-01 Ocupada con la siembra SI-001 | Código SI-002; sección S-01; resto de datos válidos | Registro rechazado; la sección está ocupada; SI-001 no cambia | Aprobado (SiembraServiceTest) |
 | CP-SIE-14 | RN-06, RN-03, RN-15 | Positivo | SI-001 ya fue cosechada y S-01 volvió a Disponible | Código SI-003; sección S-01; resto de datos válidos | Siembra guardada; S-01 vuelve a quedar Ocupada | Aprobado (SiembraServiceTest) |
 | CP-SIE-15 | RN-06 | Límite | S-01 y S-02 Disponibles | Dos siembras el mismo día, una en S-01 y otra en S-02 | Ambas guardadas; ninguna afecta a la otra | Aprobado (SiembraServiceTest) |
@@ -403,6 +403,8 @@ Relaciona cada requerimiento, regla de negocio y restricción con los casos que 
 | RES-02 | Pruebas con AAA y TDD | CP-NFR-10, CP-NFR-11, CP-NFR-12 | 2 / 1 / 0 | Cubierto | No |
 | RES-03 | Repositorio Git | CP-NFR-13 | 1 / 0 / 0 | Cubierto | No |
 
+Nota sobre RN-05: sus casos CP-SIE-01, 09, 10 y 11 están aprobados. La columna dice **No** solo por CP-SIE-12, que no aplica a nivel de servicio (ver sección 7).
+
 ---
 
 ## 6. Estado de avance (Fase 4)
@@ -418,14 +420,14 @@ Registro de lo construido. Un caso está **aprobado** cuando tiene prueba unitar
 | Secciones (SEC) | 18 | Hecha (`SeccionService`) | 18 de 18 aprobadas | `SeccionServiceTest` | feature/seccion |
 | Personal (PER) | 15 | Hecha (`TrabajadorService`) | 15 de 15 aprobadas | `TrabajadorServiceTest` | feature/personal |
 | Productos (PRO) | 16 | Hecha (`ProductoService`) | 16 de 16 aprobadas | `ProductoServiceTest` | feature/producto |
-| Siembras (SIE) | 21 | Hecha (`SiembraService`) | 20 de 21 aprobadas (falta CP-SIE-12) | `SiembraServiceTest` | main |
+| Siembras (SIE) | 21 | Hecha (`SiembraService`) | 20 de 21 aprobadas (CP-SIE-12 no aplica, ver sección 7) | `SiembraServiceTest` | main |
 | Aplicaciones (APL) | 13 | Hecha (`AplicacionService`) | 13 de 13 aprobadas | `AplicacionServiceTest` | main |
 | Cosechas (COS) | 17 | Hecha (`CosechaService`) | 17 de 17 aprobadas | `CosechaServiceTest` | main |
 | Reportes (REP) | 18 | Hecha (`ReporteService`) | 18 de 18 aprobadas | `ReporteServiceTest` | main |
 | No funcionales (NFR-01 a 07) | 7 | Parcial | Pendiente | — | — |
 | NFR-08 a 13 | 6 | No aplica (no son pruebas unitarias) | Verificación manual | — | — |
 
-Casos con prueba aprobada: **117 de 131**. Los 14 restantes son CP-SIE-12, CP-NFR-01 a CP-NFR-07 y los 6 casos de verificación manual (CP-NFR-08 a CP-NFR-13). `./mvnw test` ejecuta 118 pruebas, todas en verde; la que no es un caso del catálogo es la de arranque de Spring (`OstraVerdeQaApplicationTests`).
+Casos con prueba aprobada: **117 de 131**. Los 14 restantes son CP-SIE-12 (no aplica a nivel de servicio), CP-NFR-01 a CP-NFR-07 y los 6 casos de verificación manual (CP-NFR-08 a CP-NFR-13). `./mvnw test` ejecuta 118 pruebas, todas en verde; la que no es un caso del catálogo es la de arranque de Spring (`OstraVerdeQaApplicationTests`).
 
 Elementos de la matriz probados: **36 de 43**. Faltan RNF-01 a RNF-04, RN-05 (por CP-SIE-12), RES-02 y RES-03.
 
@@ -456,7 +458,6 @@ Los valores centinela de `ReporteService` (los métodos numéricos devuelven `-1
 ### 6.4 Pendiente
 
 - **CP-NFR-01 a CP-NFR-07:** sin prueba todavía. Reutilizan los servicios ya probados.
-- **CP-SIE-12 (sustratos 2.5):** `Siembra.cantidadSustratos` es `int`, por lo que no se puede probar a nivel de servicio. Falta decidir entre dejarlo sin prueba y documentarlo, o cambiar el campo a `double`.
 - **CP-NFR-02:** `Siembra` solo guarda el código de la sección, no su nombre. Falta definir cómo se expone el nombre al consultar una siembra.
 - **CP-NFR-07:** no hay lógica que simule una falla de base de datos, porque los datos viven en memoria (S-16).
 - Volver a ejecutar las pruebas de eliminación de productos (RN-07) con la implementación real de `AplicacionRepository`, porque hoy usan un mock.
@@ -479,6 +480,7 @@ Los valores centinela de `ReporteService` (los métodos numéricos devuelven `-1
 - `AplicacionService` no valida que la fecha no sea futura, porque el enunciado no lo pide para aplicaciones; `CosechaService` tampoco, solo exige que sea posterior a la siembra.
 - Los reportes por sección y por trabajador devuelven un `Map` ordenado por código, e incluyen con 0 kg a las secciones y trabajadores sin cosechas (CP-REP-06, CP-REP-09).
 - El rendimiento de una siembra sin cosecha lanza `ReglaNegocioException` con el mensaje de rendimiento no disponible (CP-REP-17).
+- **CP-SIE-12 (sustratos 2.5) no se prueba a nivel de servicio.** `Siembra.cantidadSustratos` es `int` (S-07), por lo que el valor 2.5 no se puede construir ni compila. Que la cantidad sea un número entero queda garantizado por el tipo, que es más fuerte que una validación en tiempo de ejecución. Se descartó cambiar el campo a `double` solo para poder rechazar un valor inválido, porque deformaba el modelo compartido sin que ninguna parte del sistema pudiera producir ese valor. El caso aplicaría en un punto de entrada de texto o de interfaz, que este proyecto no tiene. S-07 es uno de los supuestos por confirmar con el facilitador.
 - Las pruebas de Siembras, Aplicaciones, Cosechas y Reportes preparan sus precondiciones directamente con los repositorios, no con otros servicios, para que cada prueba falle solo por la regla que valida.
 - `Validaciones` (interna del paquete `Service`) concentra la comprobación de texto vacío y la de responsable registrado (RN-16) que usan los servicios de Siembras, Aplicaciones y Cosechas. `SeccionService`, `TrabajadorService` y `ProductoService` conservan sus propias comprobaciones.
 
