@@ -222,4 +222,91 @@ class TrabajadorServiceTest {
 		assertTrue(trabajadorRepository.buscarPorIdentificacion("101230456").isEmpty());
 	}
 
+	@Test
+	@DisplayName("CP-PER-12 actualizar teléfono y cargo")
+	void actualizarTelefonoYCargo() {
+		// Arrange
+		trabajadorService.registrar(new Trabajador("101230456", "Ana Mora Solís", "88881234",
+				"ana.mora@ostraverde.cr", "Operaria de cosecha"));
+		Trabajador datosNuevos = new Trabajador("101230456", "Ana Mora Solís", "70001234",
+				"ana.mora@ostraverde.cr", "Supervisora");
+
+		// Act
+		trabajadorService.actualizar("101230456", datosNuevos);
+
+		// Assert
+		Trabajador actualizado = trabajadorRepository.buscarPorIdentificacion("101230456").get();
+		assertEquals("101230456", actualizado.getIdentificacion());
+		assertEquals("Ana Mora Solís", actualizado.getNombreCompleto());
+		assertEquals("70001234", actualizado.getTelefono());
+		assertEquals("ana.mora@ostraverde.cr", actualizado.getCorreo());
+		assertEquals("Supervisora", actualizado.getCargo());
+	}
+
+	@Test
+	@DisplayName("CP-PER-13 rechazar actualización de trabajador inexistente")
+	void rechazarActualizacionDeTrabajadorInexistente() {
+		// Arrange
+		Trabajador datosNuevos = new Trabajador("999999999", "Ana Mora Solís", "88881234",
+				"ana.mora@ostraverde.cr", "Operaria de cosecha");
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> trabajadorService.actualizar("999999999", datosNuevos));
+
+		// Assert
+		assertTrue(error.getMessage().contains("no existe"));
+	}
+
+	@Test
+	@DisplayName("CP-PER-14 rechazar cambio a identificación ya registrada")
+	void rechazarCambioAIdentificacionYaRegistrada() {
+		// Arrange
+		trabajadorService.registrar(new Trabajador("101230456", "Ana Mora Solís", "88881234",
+				"ana.mora@ostraverde.cr", "Operaria de cosecha"));
+		trabajadorService.registrar(new Trabajador("202340567", "Luis Vega Rojas", "70001234",
+				"luis.vega@ostraverde.cr", "Operario de cosecha"));
+		Trabajador datosNuevos = new Trabajador("101230456", "Luis Vega Rojas", "70001234",
+				"luis.vega@ostraverde.cr", "Operario de cosecha");
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> trabajadorService.actualizar("202340567", datosNuevos));
+
+		// Assert
+		assertTrue(error.getMessage().contains("identificación"));
+		Trabajador luis = trabajadorRepository.buscarPorIdentificacion("202340567").get();
+		assertEquals("202340567", luis.getIdentificacion());
+		assertEquals("Luis Vega Rojas", luis.getNombreCompleto());
+		assertEquals("70001234", luis.getTelefono());
+		assertEquals("luis.vega@ostraverde.cr", luis.getCorreo());
+		assertEquals("Operario de cosecha", luis.getCargo());
+		Trabajador ana = trabajadorRepository.buscarPorIdentificacion("101230456").get();
+		assertEquals("Ana Mora Solís", ana.getNombreCompleto());
+		assertEquals("88881234", ana.getTelefono());
+		assertEquals("ana.mora@ostraverde.cr", ana.getCorreo());
+		assertEquals("Operaria de cosecha", ana.getCargo());
+	}
+
+	@Test
+	@DisplayName("CP-PER-15 actualizar sin modificar datos")
+	void actualizarSinModificarDatos() {
+		// Arrange
+		trabajadorService.registrar(new Trabajador("101230456", "Ana Mora Solís", "88881234",
+				"ana.mora@ostraverde.cr", "Operaria de cosecha"));
+		Trabajador mismosDatos = new Trabajador("101230456", "Ana Mora Solís", "88881234",
+				"ana.mora@ostraverde.cr", "Operaria de cosecha");
+
+		// Act
+		trabajadorService.actualizar("101230456", mismosDatos);
+
+		// Assert
+		Trabajador actualizado = trabajadorRepository.buscarPorIdentificacion("101230456").get();
+		assertEquals("101230456", actualizado.getIdentificacion());
+		assertEquals("Ana Mora Solís", actualizado.getNombreCompleto());
+		assertEquals("88881234", actualizado.getTelefono());
+		assertEquals("ana.mora@ostraverde.cr", actualizado.getCorreo());
+		assertEquals("Operaria de cosecha", actualizado.getCargo());
+	}
+
 }

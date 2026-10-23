@@ -29,6 +29,10 @@ public class TrabajadorService {
 				.orElseThrow(() -> new ReglaNegocioException("El trabajador no fue encontrado"));
 	}
 
+	/** Actualiza los datos de un trabajador existente (RF-06, RN-02). */
+	public void actualizar(String identificacion, Trabajador datosNuevos) {
+	}
+
 	/** Consulta el listado de trabajadores (RF-05). */
 	public List<Trabajador> consultarTodos() {
 		return trabajadorRepository.listarTodos();
