@@ -22,6 +22,10 @@ public class ProductoService {
 		productoRepository.guardar(producto);
 	}
 
+	/** Modifica los datos de un producto existente (RF-09). */
+	public void modificar(String codigo, Producto datosNuevos) {
+	}
+
 	// Agrupa las validaciones del registro (RF-08, RN-17).
 	private void validar(Producto producto) {
 		validarUnidadMedida(producto.getUnidadMedida());
