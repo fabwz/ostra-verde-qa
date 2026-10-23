@@ -31,8 +31,9 @@ public class SiembraService {
 	public void registrar(Siembra siembra) {
 		validarCampos(siembra);
 		validarCodigoUnico(siembra.getCodigo());
-		validarResponsable(siembra.getIdentificacionResponsable());
-		Seccion seccion = validarSeccionDisponible(siembra.getCodigoSeccion());
+		Validaciones.exigirResponsableRegistrado(trabajadorRepository, siembra.getIdentificacionResponsable());
+		Seccion seccion = buscarSeccion(siembra.getCodigoSeccion());
+		validarDisponible(seccion);
 		siembraRepository.guardar(siembra);
 		ocupar(seccion);
 	}
@@ -52,7 +53,7 @@ public class SiembraService {
 
 	// Exige que el código no sea nulo ni esté en blanco (RF-07).
 	private void validarCodigo(String codigo) {
-		if (codigo == null || codigo.isBlank()) {
+		if (Validaciones.estaVacio(codigo)) {
 			throw new ReglaNegocioException("El código de la siembra es obligatorio");
 		}
 	}
@@ -81,24 +82,20 @@ public class SiembraService {
 		}
 	}
 
-	// Exige que el responsable sea un trabajador registrado (RN-16, S-06).
-	private void validarResponsable(String identificacion) {
-		if (identificacion == null || trabajadorRepository.buscarPorIdentificacion(identificacion).isEmpty()) {
-			throw new ReglaNegocioException("El responsable no está registrado");
-		}
+	// Obtiene la sección indicada o rechaza la operación si no existe (RF-07).
+	private Seccion buscarSeccion(String codigoSeccion) {
+		return seccionRepository.buscarPorCodigo(codigoSeccion)
+				.orElseThrow(() -> new ReglaNegocioException("La sección no existe"));
 	}
 
-	// Exige que la sección exista y esté Disponible; la devuelve (RN-03, RN-06).
-	private Seccion validarSeccionDisponible(String codigoSeccion) {
-		Seccion seccion = seccionRepository.buscarPorCodigo(codigoSeccion)
-				.orElseThrow(() -> new ReglaNegocioException("La sección no existe"));
+	// Exige que la sección esté Disponible; una Ocupada no recibe otra siembra (RN-03, RN-06).
+	private void validarDisponible(Seccion seccion) {
 		if (seccion.getEstado() == EstadoSeccion.OCUPADA) {
 			throw new ReglaNegocioException("La sección está ocupada");
 		}
 		if (seccion.getEstado() != EstadoSeccion.DISPONIBLE) {
 			throw new ReglaNegocioException("La sección no está disponible");
 		}
-		return seccion;
 	}
 
 	// Cambia la sección a Ocupada una vez guardada la siembra (S-01).

@@ -32,14 +32,14 @@ public class CosechaService {
 		validarCodigoUnico(cosecha.getCodigo());
 		Siembra siembra = validarSiembra(cosecha.getCodigoSiembra());
 		validarFechaPosterior(cosecha, siembra);
-		validarResponsable(cosecha.getIdentificacionResponsable());
+		Validaciones.exigirResponsableRegistrado(trabajadorRepository, cosecha.getIdentificacionResponsable());
 		cosechaRepository.guardar(cosecha);
 		liberarSeccion(siembra.getCodigoSeccion());
 	}
 
 	// Agrupa las validaciones de los campos propios de la cosecha (RF-13, RN-13).
 	private void validarCampos(Cosecha cosecha) {
-		if (cosecha.getCodigo() == null || cosecha.getCodigo().isBlank()) {
+		if (Validaciones.estaVacio(cosecha.getCodigo())) {
 			throw new ReglaNegocioException("El código de la cosecha es obligatorio");
 		}
 		if (cosecha.getFecha() == null) {
@@ -74,13 +74,6 @@ public class CosechaService {
 	private void validarFechaPosterior(Cosecha cosecha, Siembra siembra) {
 		if (!cosecha.getFecha().isAfter(siembra.getFecha())) {
 			throw new ReglaNegocioException("La fecha de la cosecha debe ser posterior a la fecha de siembra");
-		}
-	}
-
-	// Exige que el responsable sea un trabajador registrado (RN-16, S-06).
-	private void validarResponsable(String identificacion) {
-		if (identificacion == null || trabajadorRepository.buscarPorIdentificacion(identificacion).isEmpty()) {
-			throw new ReglaNegocioException("El responsable no está registrado");
 		}
 	}
 

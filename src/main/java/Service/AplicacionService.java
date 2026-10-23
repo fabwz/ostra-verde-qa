@@ -33,13 +33,13 @@ public class AplicacionService {
 		validarCodigoUnico(aplicacion.getCodigo());
 		validarSiembra(aplicacion.getCodigoSiembra());
 		validarProducto(aplicacion.getCodigoProducto());
-		validarResponsable(aplicacion.getIdentificacionResponsable());
+		Validaciones.exigirResponsableRegistrado(trabajadorRepository, aplicacion.getIdentificacionResponsable());
 		aplicacionRepository.guardar(aplicacion);
 	}
 
 	// Agrupa las validaciones de los campos propios de la aplicación (RF-12, RN-10).
 	private void validarCampos(Aplicacion aplicacion) {
-		if (aplicacion.getCodigo() == null || aplicacion.getCodigo().isBlank()) {
+		if (Validaciones.estaVacio(aplicacion.getCodigo())) {
 			throw new ReglaNegocioException("El código de la aplicación es obligatorio");
 		}
 		if (aplicacion.getFecha() == null) {
@@ -71,13 +71,6 @@ public class AplicacionService {
 	private void validarProducto(String codigoProducto) {
 		if (codigoProducto == null || productoRepository.buscarPorCodigo(codigoProducto).isEmpty()) {
 			throw new ReglaNegocioException("El producto no existe");
-		}
-	}
-
-	// Exige que el responsable sea un trabajador registrado (RN-16, S-06).
-	private void validarResponsable(String identificacion) {
-		if (identificacion == null || trabajadorRepository.buscarPorIdentificacion(identificacion).isEmpty()) {
-			throw new ReglaNegocioException("El responsable no está registrado");
 		}
 	}
 
