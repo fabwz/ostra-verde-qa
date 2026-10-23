@@ -31,11 +31,28 @@ public class TrabajadorService {
 
 	/** Actualiza los datos de un trabajador existente (RF-06, RN-02). */
 	public void actualizar(String identificacion, Trabajador datosNuevos) {
+		validarTrabajadorExiste(identificacion);
+		if (cambiaDeIdentificacion(identificacion, datosNuevos)) {
+			validarIdentificacionUnica(datosNuevos.getIdentificacion());
+		}
+		trabajadorRepository.guardar(datosNuevos);
 	}
 
 	/** Consulta el listado de trabajadores (RF-05). */
 	public List<Trabajador> consultarTodos() {
 		return trabajadorRepository.listarTodos();
+	}
+
+	// Rechaza la operación si no existe un trabajador con esa identificación (RF-06).
+	private void validarTrabajadorExiste(String identificacion) {
+		if (trabajadorRepository.buscarPorIdentificacion(identificacion).isEmpty()) {
+			throw new ReglaNegocioException("El trabajador no existe");
+		}
+	}
+
+	// Indica si los datos nuevos traen una identificación distinta a la del trabajador actualizado.
+	private boolean cambiaDeIdentificacion(String identificacion, Trabajador datosNuevos) {
+		return !identificacion.equals(datosNuevos.getIdentificacion());
 	}
 
 	// Rechaza la operación si ya existe un trabajador con esa identificación (RN-02).
