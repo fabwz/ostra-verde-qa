@@ -1,5 +1,8 @@
 package Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Exception.ReglaNegocioException;
 import Model.Producto;
 import Repository.AplicacionRepository;
@@ -26,6 +29,16 @@ public class ProductoService {
 	public void modificar(String codigo, Producto datosNuevos) {
 		validarProductoExiste(codigo);
 		productoRepository.guardar(datosNuevos);
+	}
+
+	/** Consulta un producto por su código (RF-10). */
+	public Producto consultarPorCodigo(String codigo) {
+		return null;
+	}
+
+	/** Consulta el listado de todos los productos (RF-10). */
+	public List<Producto> consultarTodos() {
+		return new ArrayList<>();
 	}
 
 	// Rechaza la operación si no existe un producto con ese código (RF-09).

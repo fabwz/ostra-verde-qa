@@ -1,9 +1,11 @@
 package Service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -161,6 +163,52 @@ class ProductoServiceTest {
 		verificarGuardado("PR-01", "Cal agrícola", "Desinfectante",
 				"Desinfección de sustrato y paredes", "kg");
 		Mockito.verify(aplicacionRepository, Mockito.never()).guardar(ArgumentMatchers.any());
+	}
+
+	@Test
+	@DisplayName("CP-PRO-09 consultar producto por código")
+	void consultarProductoPorCodigo() {
+		// Arrange
+		productoService.registrar(new Producto("PR-01", "Cal agrícola", "Desinfectante",
+				"Desinfección de sustrato", "kg"));
+
+		// Act
+		Producto consultado = productoService.consultarPorCodigo("PR-01");
+
+		// Assert
+		assertNotNull(consultado);
+		assertEquals("PR-01", consultado.getCodigo());
+		assertEquals("Cal agrícola", consultado.getNombre());
+		assertEquals("Desinfectante", consultado.getTipo());
+		assertEquals("Desinfección de sustrato", consultado.getDescripcion());
+		assertEquals("kg", consultado.getUnidadMedida());
+	}
+
+	@Test
+	@DisplayName("CP-PRO-10 rechazar consulta de producto inexistente")
+	void rechazarConsultaDeProductoInexistente() {
+		// Arrange
+		String codigo = "PR-99";
+
+		// Act
+		ReglaNegocioException excepcion = assertThrows(ReglaNegocioException.class,
+				() -> productoService.consultarPorCodigo(codigo));
+
+		// Assert
+		assertTrue(excepcion.getMessage().contains("encontrado"));
+	}
+
+	@Test
+	@DisplayName("CP-PRO-11 consultar listado sin productos registrados")
+	void consultarListadoSinProductos() {
+		// Arrange
+		// Sin productos registrados.
+
+		// Act
+		List<Producto> productos = productoService.consultarTodos();
+
+		// Assert
+		assertTrue(productos.isEmpty());
 	}
 
 	// Comprueba que el producto existe y que sus cinco campos coinciden con los esperados.
