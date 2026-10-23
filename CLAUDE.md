@@ -66,8 +66,8 @@ Reglas:
 
 El trabajo se divide entre dos integrantes:
 
-- **Mitad A:** Secciones, Personal, Productos y Reportes.
-- **Mitad B:** Siembras, Aplicaciones y Cosechas.
+- **Mitad A:** Secciones, Personal y Productos.
+- **Mitad B:** Siembras, Aplicaciones, Cosechas y Reportes.
 
 Los modelos, `EstadoSeccion`, las interfaces de repositorio y `ReglaNegocioException` son la base compartida. No cambiar su firma sin avisar, porque la usan ambas mitades. Los reportes dependen de datos de siembras, aplicaciones y cosechas, por lo que se desarrollan al final.
 
