@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -113,7 +114,52 @@ class TrabajadorServiceTest {
 	}
 
 	@Test
-	@DisplayName("CP-PER-02 rechazar cargo vacío")
+	@DisplayName("CP-PER-09 consultar trabajador por identificación")
+	void consultarTrabajadorPorIdentificacion() {
+		// Arrange
+		trabajadorService.registrar(new Trabajador("101230456", "Ana Mora Solís", "88881234",
+				"ana.mora@ostraverde.cr", "Operaria de cosecha"));
+
+		// Act
+		Trabajador consultado = trabajadorService.consultarPorIdentificacion("101230456");
+
+		// Assert
+		assertEquals("101230456", consultado.getIdentificacion());
+		assertEquals("Ana Mora Solís", consultado.getNombreCompleto());
+		assertEquals("88881234", consultado.getTelefono());
+		assertEquals("ana.mora@ostraverde.cr", consultado.getCorreo());
+		assertEquals("Operaria de cosecha", consultado.getCargo());
+	}
+
+	@Test
+	@DisplayName("CP-PER-10 rechazar consulta de trabajador inexistente")
+	void rechazarConsultaDeTrabajadorInexistente() {
+		// Arrange
+		String identificacion = "999999999";
+
+		// Act
+		ReglaNegocioException error = assertThrows(ReglaNegocioException.class,
+				() -> trabajadorService.consultarPorIdentificacion(identificacion));
+
+		// Assert
+		assertTrue(error.getMessage().contains("encontrado"));
+	}
+
+	@Test
+	@DisplayName("CP-PER-11 consultar listado sin trabajadores")
+	void consultarListadoSinTrabajadores() {
+		// Arrange
+		// Sin trabajadores registrados.
+
+		// Act
+		List<Trabajador> trabajadores = trabajadorService.consultarTodos();
+
+		// Assert
+		assertTrue(trabajadores.isEmpty());
+	}
+
+	@Test
+	@DisplayName("CP-PER-02rechazar cargo vacío")
 	void rechazarCargoVacio() {
 		// Arrange
 		Trabajador trabajador = new Trabajador("101230456", "Ana Mora Solís", "88881234",

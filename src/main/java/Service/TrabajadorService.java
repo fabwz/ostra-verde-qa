@@ -1,5 +1,8 @@
 package Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Exception.ReglaNegocioException;
 import Model.Trabajador;
 import Repository.TrabajadorRepository;
@@ -19,6 +22,16 @@ public class TrabajadorService {
 	public void registrar(Trabajador trabajador) {
 		validar(trabajador);
 		trabajadorRepository.guardar(trabajador);
+	}
+
+	/** Consulta un trabajador por su identificación (RF-05). */
+	public Trabajador consultarPorIdentificacion(String identificacion) {
+		return null;
+	}
+
+	/** Consulta el listado de trabajadores (RF-05). */
+	public List<Trabajador> consultarTodos() {
+		return new ArrayList<>();
 	}
 
 	// Rechaza la operación si ya existe un trabajador con esa identificación (RN-02).
