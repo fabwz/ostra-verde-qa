@@ -1,6 +1,7 @@
 package Service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import Exception.ReglaNegocioException;
 import Model.EstadoSeccion;
 import Model.Producto;
 import Model.Seccion;
@@ -72,6 +74,41 @@ class ProductoServiceTest {
 
 		// Assert
 		verificarGuardado("PR-02", "Cal agrícola", "Desinfectante", "", "kg");
+	}
+
+	@Test
+	@DisplayName("CP-PRO-02 rechazar producto con código duplicado")
+	void rechazarProductoConCodigoDuplicado() {
+		// Arrange
+		productoService.registrar(new Producto("PR-01", "Cal agrícola", "Desinfectante",
+				"Desinfección de sustrato", "kg"));
+		Producto duplicado = new Producto("PR-01", "Fungicida", "Fungicida", "", "litro");
+
+		// Act
+		ReglaNegocioException excepcion = assertThrows(ReglaNegocioException.class,
+				() -> productoService.registrar(duplicado));
+
+		// Assert
+		assertTrue(excepcion.getMessage().contains("código"));
+		Producto original = productoRepository.buscarPorCodigo("PR-01").get();
+		assertEquals("Cal agrícola", original.getNombre());
+		assertEquals("kg", original.getUnidadMedida());
+	}
+
+	@Test
+	@DisplayName("CP-PRO-04 rechazar producto con unidad de medida vacía")
+	void rechazarProductoConUnidadVacia() {
+		// Arrange
+		Producto producto = new Producto("PR-03", "Cal agrícola", "Desinfectante",
+				"Desinfección de sustrato", "");
+
+		// Act
+		ReglaNegocioException excepcion = assertThrows(ReglaNegocioException.class,
+				() -> productoService.registrar(producto));
+
+		// Assert
+		assertTrue(excepcion.getMessage().contains("unidad"));
+		assertTrue(productoRepository.buscarPorCodigo("PR-03").isEmpty());
 	}
 
 	// Comprueba que el producto existe y que sus cinco campos coinciden con los esperados.
