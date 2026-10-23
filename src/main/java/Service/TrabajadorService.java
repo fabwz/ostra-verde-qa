@@ -1,6 +1,5 @@
 package Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import Exception.ReglaNegocioException;
@@ -26,12 +25,13 @@ public class TrabajadorService {
 
 	/** Consulta un trabajador por su identificación (RF-05). */
 	public Trabajador consultarPorIdentificacion(String identificacion) {
-		return null;
+		return trabajadorRepository.buscarPorIdentificacion(identificacion)
+				.orElseThrow(() -> new ReglaNegocioException("El trabajador no fue encontrado"));
 	}
 
 	/** Consulta el listado de trabajadores (RF-05). */
 	public List<Trabajador> consultarTodos() {
-		return new ArrayList<>();
+		return trabajadorRepository.listarTodos();
 	}
 
 	// Rechaza la operación si ya existe un trabajador con esa identificación (RN-02).

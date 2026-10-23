@@ -25,9 +25,10 @@ public class TrabajadorRepositoryImpl implements TrabajadorRepository {
 		return Optional.ofNullable(trabajadores.get(identificacion));
 	}
 
+	/** Devuelve una copia con todos los trabajadores guardados (RF-05). */
 	@Override
 	public List<Trabajador> listarTodos() {
-		return new ArrayList<>();
+		return new ArrayList<>(trabajadores.values());
 	}
 
 }
